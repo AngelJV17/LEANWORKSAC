@@ -5,7 +5,8 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+            {{-- <i class="fas fa-laugh-wink"></i> --}}
+            <img src="{{ asset('admin_assets/img/logo_icon.png') }}" alt="logo" width="50">
         </div>
         <div class="sidebar-brand-text mx-3">LEAN WORK SAC</div>
     </a>

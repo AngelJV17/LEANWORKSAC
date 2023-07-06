@@ -7,9 +7,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    {{-- <meta name="description" content="">
+    <meta name="author" content=""> --}}
     <title>LEAN WORK SAC {{ isset($title) ? '| ' . $title : '' }}</title>
+    <link rel="shortcut icon" href="{{ asset('admin_assets/img/logo_icon.png') }}">
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
