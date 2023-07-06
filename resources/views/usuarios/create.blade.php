@@ -92,7 +92,7 @@
                     <select id="sexo" name="sexo" class="form-control">
                         <option selected disabled>Seleccione</option>
                         @foreach ($sexos as $sexo)
-                            <option value="{{ $sexo->id }}">{{ $sexo->categoria_descripcion }}</option>
+                            <option value="{{ $sexo->id }}" @selected( old('sexo') == $sexo->id )>{{ $sexo->categoria_descripcion }}</option>
                         @endforeach
                     </select>
                     @error('sexo')
@@ -142,7 +142,7 @@
                     <select id="rol" name="rol" class="form-control">
                         <option selected disabled>Seleccione</option>
                         @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+                            <option value="{{ $rol->id }}" @selected( old('rol') == $rol->id )>{{ $rol->nombre }}</option>
                         @endforeach
                     </select>
                     @error('rol')

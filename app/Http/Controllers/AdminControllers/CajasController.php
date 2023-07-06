@@ -30,7 +30,7 @@ class CajasController extends Controller
         $tipo_operaciones = CategoriaGlobal::where('categoria_descripcion', 'INGRESOS')
             ->orWhere('categoria_descripcion', 'EGRESOS')
             ->get();
-        $responsables = Usuario::all();
+        $responsables = Usuario::whereNot('id', 1)->get();
 
         //dd($tipo_operaciones);
         return view('cajas.create',  ['proyectos' => $proyectos, 'tipo_operaciones' => $tipo_operaciones, 'responsables' => $responsables]);
@@ -39,7 +39,7 @@ class CajasController extends Controller
     public function prestamoInterno()
     {
         $proyectos = Proyecto::all();
-        $responsables = Usuario::all();
+        $responsables = Usuario::whereNot('id', 1)->get();
 
         return view('cajas.prestamo-interno', ['proyectos' => $proyectos, 'responsables' => $responsables]);
     }
@@ -81,9 +81,9 @@ class CajasController extends Controller
         $caja2->proyecto_id = $request->input('proyecto_emisor');
         $caja2->operacion = 3; //OPERACION EGRESOS ID
         $caja2->tipo = 15; //TIPO EGRESO ID
-        $caja2->subtipo = 58; //SUBTIPO PRÉSTAMO
+        $caja2->subtipo = 52; //SUBTIPO PRÉSTAMO
         $caja2->autorizado_por = $request->input('autorizado_por');
-        $caja2->realizado_a_favor =$proy_recep;
+        $caja2->realizado_a_favor = $proy_recep;
         $caja2->monto = $request->input('monto');
         $caja2->descripcion = $request->input('descripcion');
         $caja2->created_at = (new DateTime())->getTimestamp();
@@ -143,7 +143,7 @@ class CajasController extends Controller
         $tipo_operaciones = CategoriaGlobal::where('categoria_descripcion', 'INGRESOS')
             ->orWhere('categoria_descripcion', 'EGRESOS')
             ->get();
-        $responsables = Usuario::all();
+        $responsables = Usuario::whereNot('id', 1)->get();
 
         return view('cajas.edit',  ['proyectos' => $proyectos, 'caja' => $caja, 'tipo_operaciones' => $tipo_operaciones, 'responsables' => $responsables]);
     }

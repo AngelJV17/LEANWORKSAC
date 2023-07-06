@@ -46,14 +46,14 @@ class UserController extends Controller
     {
         $request->validate([
             //'codigo' => 'required|unique:usuarios|max:10',
-            'dni_ce' => 'required|numeric|unique:usuarios|digits:8',
+            'dni_ce' => 'required|unique:usuarios|numeric',
             'nombres' => 'required|max:50',
             'apellidos' => 'required|max:100',
             'sexo' => 'required',
             'fecha_nacimiento' => 'required',
-            'telefono' => 'required|numeric|digits:9',
+            'celular' => 'required|numeric',
             'direccion' => 'required|max:100',
-            'correo' => 'required|unique:usuarios|email',
+            'email' => 'required|unique:usuarios|email',
             'rol' => 'required',
         ]);
 
@@ -65,7 +65,7 @@ class UserController extends Controller
         }
 
         //dd($request->input('dni_ce') . $iniciales);
-
+        
         $usuario = new Usuario();
         $usuario->codigo = $request->input('dni_ce') . $iniciales;
         $usuario->dni_ce = $request->input('dni_ce');
