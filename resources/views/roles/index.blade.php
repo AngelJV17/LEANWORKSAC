@@ -33,23 +33,33 @@
 
         <div class="container">
             <div class="row">
+
                 @foreach ($roles as $rol)
                     {{-- {{ dd($rol->nombre) }} --}}
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card bg-light shadow-lg p-3 mb-5 bg-white mx-auto border-bottom-warning w-auto" style="border-radius: 21px 21px 21px 21px;">
+                        <div class="card bg-light shadow-lg p-3 mb-5 bg-white mx-auto border-bottom-warning w-auto"
+                            style="border-radius: 21px 21px 21px 21px;">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="fw-normal">
-                                        <span style="vertical-align: inherit;">
-                                            <span style="vertical-align: inherit;">Total 2 usuarios</span>
-                                        </span>
-                                    </h6>
+                                    <span class="text-muted" style="vertical-align: inherit;">Total
+                                        {{-- @if (array_column(json_decode($usuarios), 'rol_id') != null)
+                                            {{ array_count_values(array_column(json_decode($usuarios), 'rol_id'))[$rol->id] }}
+                                        @endif --}}
+                                        @if (array_key_exists($rol->id, json_decode($usuarios)))
+                                            <strong>{{ array_count_values(array_column(json_decode($usuarios), 'rol_id'))[$rol->id] }}</strong>
+                                        @else
+                                            <strong>0</strong>
+                                        @endif
+                                        usuarios
+                                    </span>
+                                    </span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-end">
                                     <div class="role-heading">
-                                        <h4 class="mb-1">{{ $rol->nombre }}</h4>
-                                        <a href="{{ route('roles.edit', $rol) }}" class="role-edit-modal">
-                                            <small>Editar Rol</small>
+                                        <h5 class="mb-1 text-muted mb-2">{{ $rol->nombre }}</h5>
+                                        <a href="{{ route('roles.edit', $rol) }}" type="button"
+                                            class="class btn btn-outline-info btn-sm text-uppercase">
+                                            Editar Rol <i class="fa-solid fa-pen fa-sm m-1"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -58,8 +68,7 @@
                                 <form action="{{ route('roles.delete', $rol->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm btn-sm rounded-circle"
-                                        title="ELIMINAR">
+                                    <button type="submit" class="btn btn-danger btn-sm rounded-circle" title="ELIMINAR">
                                         {{-- <i class="fas fa-fw fa-trash fa-sm"></i> --}}
                                         <i class="fas fa-fw fa-trash-can  fa-sm"></i>
                                     </button>

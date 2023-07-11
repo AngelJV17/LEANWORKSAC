@@ -12,4 +12,5 @@ var table = new DataTable('#dataTable', {
   },
   responsive: true,
   autoWidth: false,
+  order: [[0, 'desc']]
 });

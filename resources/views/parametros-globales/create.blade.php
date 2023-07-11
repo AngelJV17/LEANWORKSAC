@@ -25,7 +25,7 @@
 
     <div class="card bg-light shadow mx-auto p-4 h-auto p-3"
         style="width: 50%; border-radius: 16px; margin-top: -4rem !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-        <form action="{{ url('parametros-globales') }}" method="post">
+        <form action="{{ url('parametros-globales') }}" method="POST">
             @csrf
 
             {{ Form::hidden('tipo', 'categoria') }}

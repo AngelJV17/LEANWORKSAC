@@ -31,6 +31,10 @@ return new class extends Migration
             $table->string('realizado_a_favor');
             $table->double('monto', 8, 2);
             $table->string('descripcion');
+            $table->boolean('is_prestamo')->nullable();
+            $table->integer('id_prestamos_internos')->nullable();
+            $table->unsignedBigInteger('id_control_caja')->unsigned();
+            $table->foreign('id_control_caja')->references('id')->on('control_caja')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

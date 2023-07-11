@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminControllers\CajasController;
 use App\Http\Controllers\AdminControllers\CategoriasGlobalesController;
+use App\Http\Controllers\AdminControllers\ControlCajasController;
 use App\Http\Controllers\AdminControllers\ParametrosGlobalesController;
+use App\Http\Controllers\AdminControllers\PrestamosInternosController;
 use App\Http\Controllers\AdminControllers\ProyectosController;
 use App\Http\Controllers\AdminControllers\RolController;
 use App\Http\Controllers\AdminControllers\UserController;
@@ -78,9 +80,11 @@ Route::put('categorias-globales/{categoriaGlobal}', [CategoriasGlobalesControlle
 Route::delete('categorias-globales/{categoriaGlobal}', [CategoriasGlobalesController::class, 'destroy'])->name('categorias-globales.delete');
 
 
+//PDF
+Route::get('cajas/generar-pdf/{caja}', [CajasController::class, 'generarPdf'])->name('cajas.generar-pdf');
 Route::get('/cajas', [CajasController::class, 'index'])->name('cajas.index');
-Route::get('caja/prestamo-interno', [CajasController::class, 'prestamoInterno'])->name('cajas.prestamo-interno');
-Route::post('caja/savePrestamoInterno', [CajasController::class, 'savePrestamoInterno'])->name('cajas.savePrestamoInterno');
+Route::get('cajas/prestamo-interno', [CajasController::class, 'prestamoInterno'])->name('cajas.prestamo-interno');
+Route::post('cajas/savePrestamoInterno', [CajasController::class, 'savePrestamoInterno'])->name('cajas.savePrestamoInterno');
 Route::get('cajas/create', [CajasController::class, 'create'])->name('cajas.create');
 Route::post('cajas', [CajasController::class, 'store'])->name('cajas.store');
 Route::get('cajas/{caja}', [CajasController::class, 'show'])->name('cajas.show');
@@ -88,6 +92,23 @@ Route::get('cajas/{caja}/edit', [CajasController::class, 'edit'])->name('cajas.e
 Route::put('cajas/{caja}', [CajasController::class, 'update'])->name('cajas.update');
 Route::delete('cajas/{caja}', [CajasController::class, 'destroy'])->name('cajas.delete');
 
+
+Route::get('/control-cajas', [ControlCajasController::class, 'index'])->name('control-cajas.index');
+//Route::get('control-cajas/create', [ControlCajasController::class, 'create'])->name('control-cajas.create');
+Route::post('control-cajas', [ControlCajasController::class, 'store'])->name('control-cajas.store');
+Route::get('control-cajas/{caja}', [ControlCajasController::class, 'show'])->name('control-cajas.show');
+Route::get('control-cajas/{caja}/edit', [ControlCajasController::class, 'edit'])->name('control-cajas.edit');
+Route::put('control-cajas/{caja}', [ControlCajasController::class, 'update'])->name('control-cajas.update');
+Route::delete('control-cajas/{caja}', [ControlCajasController::class, 'destroy'])->name('control-cajas.delete');
+
+
+Route::get('/prestamos-internos', [PrestamosInternosController::class, 'index'])->name('prestamos-internos.index');
+Route::get('prestamos-internos/create', [PrestamosInternosController::class, 'create'])->name('prestamos-internos.create');
+Route::post('prestamos-internos', [PrestamosInternosController::class, 'store'])->name('prestamos-internos.store');
+Route::get('prestamos-internos/{prestamoInterno}', [PrestamosInternosController::class, 'show'])->name('prestamos-internos.show');
+Route::get('prestamos-internos/{prestamoInterno}/edit', [PrestamosInternosController::class, 'edit'])->name('prestamos-internos.edit');
+Route::put('prestamos-internos/{prestamoInterno}', [PrestamosInternosController::class, 'update'])->name('prestamos-internos.update');
+Route::delete('prestamos-internos/{prestamoInterno}', [PrestamosInternosController::class, 'destroy'])->name('prestamos-internos.delete');
 
 //DEPARTAMENTOS - PROVINCIAS Y DISTRITOS
 //Route::get('proyectos/lista/departamentos', [ListaUbigeosController::class, 'listaDepartamentos'])->name('lista.departamentos');

@@ -65,13 +65,13 @@
                                 <td>{{ $categoria->categoria_padre }}</td>
                                 <td>{{ $categoria->modulo }}</td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-info btn-sm btn-sm rounded-circle"
+                                    <a type="button" class="btn btn-outline-info btn-sm rounded-circle"
                                         title="VER">
                                         <i class="fas fa-fw fa-eye fa-sm"></i>
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-warning btn-sm btn-sm rounded-circle"
+                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle"
                                         title="EDITAR" href="{{ route('categorias-globales.edit', $categoria->id) }}">
                                         <i class="fas fa-fw fa-pen fa-sm"></i>
                                     </a>
@@ -80,7 +80,7 @@
                                     <form action="{{ route('categorias-globales.delete', $categoria->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm btn-sm rounded-circle"
+                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle"
                                             title="ELIMINAR">
                                             <i class="fas fa-fw fa-trash fa-sm"></i>
                                         </button>

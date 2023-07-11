@@ -92,7 +92,7 @@
     </li> --}}
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('cajas.prestamo-interno') }}">
+        <a class="nav-link" href="{{ route('prestamos-internos.create') }}">
             <i class="fas fa-fw fa-hand-holding-dollar"></i>
             <span>Prestamo Interno</span>
         </a>
@@ -164,6 +164,18 @@
         <a class="nav-link" href="{{ route('roles.index') }}">
             <i class="fas fa-fw fa-user-gear"></i>
             <span>Roles</span>
+        </a>
+    </li>
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        CONTROL DE CAJA
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('control-cajas.index') }}">
+            <i class="fas fa-fw fa-cash-register fa-xl"></i>
+            <span>Aperturar Caja</span>
         </a>
     </li>
 

@@ -148,6 +148,11 @@
             </div>
             <div class="text-center m-4">
                 <button class="btn btn-info" type="submit">ACTUALIZAR</button>
+                <a type="button" class="btn btn-danger text-white font-weight-bold m-2" title="EDITAR"
+                    href="{{ route('cajas.generar-pdf', $caja->id) }}">
+                    <i class="fas fa-fw fa-file-pdf"></i>
+                    GENERAR PDF
+                </a>
             </div>
         </form>
     </div>

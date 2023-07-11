@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rol;
+use App\Models\Usuario;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +19,12 @@ class RolController extends Controller
     {
         //$roles = Rol::latest()->paginate(5);
         $roles = Rol::all();
+        $usuarios = Usuario::all();
         //$roles = DB::table('roles')->orderBy('nombre')->get();
 
         //dd($roles);
 
-        return view('roles.index', compact('roles'));
+        return view('roles.index', ['roles' => $roles, 'usuarios' => $usuarios]);
 
         //return view('roles.index');
     }
@@ -72,7 +74,7 @@ class RolController extends Controller
 
     public function show(Rol $rol)
     {
-        return view('roles.show',compact('rol'));
+        return view('roles.show', compact('rol'));
     }
 
     public function edit(Rol $rol)

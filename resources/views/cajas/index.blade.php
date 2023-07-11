@@ -127,7 +127,7 @@
                         <?php $count = 1; ?>
                         @foreach ($cajas as $caja)
                             <tr>
-                                <td>{{ $count++ }}</td>
+                                <td>{{ $caja->id }}</td>
                                 <td>{{ $caja->proyecto->nombre_proyecto }}</td>
                                 <td>{{ $caja->_operacion->categoria_descripcion }}</td>
                                 <td>{{ $caja->_tipo->categoria_descripcion }}</td>
@@ -137,14 +137,15 @@
                                 <td>{{ $caja->realizado_a_favor }}</td>
                                 <td>S/. {{ number_format($caja->monto, 2) }}</td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-info btn-sm btn-sm rounded-circle"
-                                        title="VER" href="#">
+                                    <a type="button" class="btn btn-outline-info btn-sm rounded-circle" title="VER"
+                                        href="{{ route('cajas.show', $caja->id) }}">
                                         <i class="fas fa-fw fa-eye fa-sm"></i>
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-warning btn-sm btn-sm rounded-circle"
-                                        title="EDITAR" href="{{route('cajas.edit', $caja->id)}}">
+                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle" title="EDITAR"
+                                        @if ($caja->is_prestamo) href="{{ route('prestamos-internos.edit', $caja->id_prestamos_internos) }}" @else
+                                        href="{{ route('cajas.edit', $caja->id) }}" @endif>
                                         <i class="fas fa-fw fa-pen fa-sm"></i>
                                     </a>
                                 </td>

@@ -64,19 +64,19 @@
                                 </td>
                                 <td>S/. {{ number_format($proyecto->monto_proyectado, 2) }}</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-outline-info btn-sm btn-sm rounded-circle"
+                                    <button type="button" class="btn btn-outline-info btn-sm rounded-circle"
                                         title="VER">
                                         <i class="fas fa-fw fa-eye fa-sm"></i>
                                     </button>
                                 </td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-warning btn-sm btn-sm rounded-circle"
+                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle"
                                         title="EDITAR" href="{{route('proyectos.edit', $proyecto->id)}}">
                                         <i class="fas fa-fw fa-pen fa-sm"></i>
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-sm rounded-circle"
+                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-circle"
                                         title="ELIMINAR">
                                         <i class="fas fa-fw fa-trash fa-sm"></i>
                                     </button>
