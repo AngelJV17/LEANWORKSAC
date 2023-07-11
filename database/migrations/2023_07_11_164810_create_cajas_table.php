@@ -29,7 +29,7 @@ return new class extends Migration
             $table->foreign('autorizado_por')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
             
             $table->string('realizado_a_favor');
-            $table->double('monto', 8, 2);
+            $table->decimal('monto', 11, 2);
             $table->string('descripcion');
             $table->boolean('is_prestamo')->nullable();
             $table->integer('id_prestamos_internos')->nullable();

@@ -150,10 +150,14 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-circle"
-                                        title="ELIMINAR">
-                                        <i class="fas fa-fw fa-trash fa-xs"></i>
-                                    </button>
+                                    <form action="{{ route('cajas.delete', $caja->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle"
+                                            title="ELIMINAR">
+                                            <i class="fas fa-fw fa-trash fa-sm"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

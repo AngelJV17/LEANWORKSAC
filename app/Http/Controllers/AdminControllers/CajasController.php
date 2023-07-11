@@ -239,7 +239,7 @@ class CajasController extends Controller
         $control_caja = CajaControl::orderBy('id', 'desc')->first();
         $fecha_caja_control = ($control_caja != null) ? $control_caja->created_at->format('d-m-Y') :  '';
         $fecha_caja = $caja->created_at->format('d-m-Y');
-        
+
         if ($fecha_caja_control == $fecha_caja) {
             $caja = Caja::find($caja->id);
             $caja->proyecto_id = $request->input('proyecto_id');
@@ -266,9 +266,26 @@ class CajasController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Caja $caja)
     {
-        //
+        $caja = Caja::find($caja->id);
+
+        if ($caja->is_prestamo) {
+            $cajas_prestamo = Caja::where('id_prestamos_internos', $caja->id_prestamos_internos)->get();
+            $prestamo = PrestamoInterno::find($caja->id_prestamos_internos);
+            foreach ($cajas_prestamo as $caja) {
+                $caja->delete();
+            }
+            //dd($prestamo);
+            $prestamo->delete();
+            Alert::toast('Caja de Registro y Préstamo eliminado', 'success');
+            return redirect()->route('cajas.index');
+        } else {
+            //dd($caja);
+            $caja->delete();
+            Alert::toast('Caja de Registro Eliminada', 'success');
+            return redirect()->route('cajas.index');
+        }
     }
 
     public function totalIngresos($id)
@@ -332,22 +349,5 @@ class CajasController extends Controller
         $subtipo = CategoriaGlobal::find($caja->subtipo);
         $nombre = $caja->id . '-' . $operacion->categoria_descripcion . '-' . $tipo->categoria_descripcion . '-' . $subtipo->categoria_descripcion;
         return $pdf->download($nombre . '.pdf');
-    }
-
-    public function actualizarPrestamo($id_prestamo){
-        $prestamoInterno = PrestamoInterno::find($id_prestamo);
-        //dd($prestamoInterno);
-
-       /*  $prestamoInterno->parent_id = ($is_categoria_padre == 'SI') ? 0 : $request->input('categoria_padre');
-        $prestamoInterno->categoria_descripcion = $request->input('categoria_descripcion');
-        $prestamoInterno->modulo = $request->input('modulo');
-        $prestamoInterno->is_categoria_padre = ($is_categoria_padre == 'SI') ? true : false;
-        $prestamoInterno->updated_at = (new DateTime())->getTimestamp();
-
-        if ($prestamoInterno->save()) {
-            Alert::toast('Categoria Actualizada', 'success');
-            //return view('roles.index');
-            return redirect()->route('categorias-globales.index');
-        } */
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('codigo_proyecto')->unique();
             $table->string('nombre_proyecto')->unique();
-            $table->double('monto_proyectado', 8, 2);
+            $table->decimal('monto_proyectado', 11, 2);
             
             $table->unsignedBigInteger('departamento_id')->unsigned();
             $table->foreign('departamento_id')->references('id')->on('ubigeo_peru_departamentos')->onUpdate('cascade')->onDelete('cascade');

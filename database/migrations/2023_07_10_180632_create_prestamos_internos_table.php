@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('proyecto_acreedor');
             $table->unsignedBigInteger('autorizado_por');
             $table->foreign('autorizado_por')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
-            $table->double('monto', 8, 2);
+            $table->decimal('monto', 11, 2);
             $table->string('descripcion');
             $table->timestamps();
         });
