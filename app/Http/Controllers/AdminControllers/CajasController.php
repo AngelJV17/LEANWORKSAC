@@ -15,17 +15,29 @@ use DateTime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CajasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //dd($request);
-        $proyectos = Proyecto::all();
-        //$cajas = Caja::all();
-        $cajas = Caja::orderBy('id', 'desc')->get();
-        $is_filter = false;
-
-        return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas]);
+        if ($request->proyecto != null) {
+            $proyectos = Proyecto::all();
+            $filtro = $request->proyecto;
+            $cajas = Caja::where('proyecto_id', 'LIKE', '%' . $filtro . '%')->get();
+            $is_filter = true;
+            $total_ingresos = $this->obetenerTotalIngresos($filtro);
+            $total_egresos = $this->obetenerTotalEgresos($filtro);
+            $saldo = $total_ingresos - $total_egresos;
+            //dd($request->proyecto);
+            return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas, 'total_ingresos' => $total_ingresos, 'total_egresos' => $total_egresos, 'saldo' => $saldo, 'proyecto_id' => $filtro]);
+        } else {
+            $proyectos = Proyecto::all();
+            //$cajas = Caja::all();
+            $cajas = Caja::orderBy('id', 'desc')->get();
+            $is_filter = false;
+            return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas]);
+        }
     }
 
     public function create()

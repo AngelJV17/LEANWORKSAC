@@ -36,18 +36,17 @@
     <div class="card bg-light shadow mx-auto p-4 h-auto"
         style="width: 95%; border-radius: 16px; margin-top: -4rem !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
 
-        {{-- <div class="container-fluid">
-            <div class="card shadow m-4">
-                <form action="{{ url('cajas/filtro') }}" method="POST">
-                    @csrf
-                    {{ Form::hidden('is_filtro', true) }}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <form>
+                    {{-- {{ Form::hidden('is_filtro', true) }} --}}
                     <div class="form-row m-2">
                         <div class="form-group mb-2 col-12">
-                            <label for="proyecto_id">PROYECTOS</label>
-                            <select id="proyecto_id" name="proyecto_id" class="form-control">
+                            <label for="proyecto">PROYECTOS</label>
+                            <select id="proyecto" name="proyecto" class="form-control">
                                 <option selected disabled>Seleccione</option>
                                 @foreach ($proyectos as $proyecto)
-                                    <option value="{{ $proyecto->id }}">
+                                    <option value="{{ $proyecto->id }}" @selected($is_filter && $proyecto_id == $proyecto->id)>
                                         {{ $proyecto->nombre_proyecto }}
                                     </option>
                                 @endforeach
@@ -65,41 +64,120 @@
 
             <!-- Project Card Example -->
             @if ($is_filter)
-                <div class="form-row m-4">
-                    <div class="form-group col-12">
-                        <div class="card shadow">
+                <div class="row">
+
+                    <!-- Total Ingresos -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">
-                                <div class="sidebar-brand-text text-center">
-                                    <h6 class="font-weight-bold text-uppercase">{{ $proyecto_->nombre_proyecto }}</h6>
-                                </div>
-                                <hr>
-                                <h4 class="small font-weight-bold">Ingresos<span class="float-right" id="ingresos_monto">S/.
-                                        {{ number_format($total_ingresos, 2) }}</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar-striped bg-success inicio animacion" role="progressbar"
-                                        id="barra_ingresos" aria-valuenow="100" aria-valuemin="0"
-                                        aria-valuemax="100">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total
+                                            Ingresos
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                                    {{ number_format($total_ingresos, 2) }}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="progress progress-sm mr-2">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        @if ($total_egresos > 0)
+                                                        style="width: 100%"
+                                                        aria-valuenow="100"
+                                                        @else
+                                                        style="width: 0%"
+                                                        aria-valuenow="0"
+                                                        @endif  aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
-                                <h4 class="small font-weight-bold">Egresos<span class="float-right" id="egresos_monto">S/.
-                                        {{ number_format($total_egresos, 2) }}</span></h4>
-                                <div class="progress">
-                                    <div class="progress-bar-striped bg-danger inicio animacion" role="progressbar"
-                                        id="barra_egresos" aria-valuenow="75" aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                </div>
-                                <div id="total_ingresos" data-user="@json($total_ingresos)"></div>
-                                <div id="total_egresos" data-user="@json($total_egresos)"></div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="text-right m-4">
-                                <a class="btn btn-info" type="button" href="{{ route('cajas.index') }}">ATRÁS</a>
+                    <!-- Total Egresos -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Egresos
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                                    {{ number_format($total_egresos, 2) }}</div>
+                                            </div>
+                                            <div class="col">
+                                                <?php $porcentaje = ($total_egresos > 0 || $total_ingresos > 0 ) ? ($total_egresos * 100) / $total_ingresos : 0 ; ?>
+                                                <div class="progress progress-sm mr-2">
+                                                    <div class="progress-bar bg-danger" role="progressbar"
+                                                        style="width: {{ number_format($porcentaje,2) }}%"
+                                                        aria-valuenow="{{ number_format($porcentaje,2) }}" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saldo Total -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Saldo
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                                    {{ number_format($saldo, 2) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Porcentaje de Gasto -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Porcentaje de Gasto</div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ number_format($porcentaje,2) }} %</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-percent fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             @endif
-        </div> --}}
+        </div>
 
         <div class="card-body">
             <div class="table-responsive">
@@ -143,7 +221,8 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle" title="EDITAR"
+                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle"
+                                        title="EDITAR"
                                         @if ($caja->is_prestamo) href="{{ route('prestamos-internos.edit', $caja->id_prestamos_internos) }}" @else
                                         href="{{ route('cajas.edit', $caja->id) }}" @endif>
                                         <i class="fas fa-fw fa-pen fa-sm"></i>
