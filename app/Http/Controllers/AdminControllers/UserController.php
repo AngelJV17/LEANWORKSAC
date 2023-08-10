@@ -4,27 +4,36 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoriaGlobal;
-use App\Models\ParametrosGlobales;
 use App\Models\Rol;
-use App\Models\Usuario;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
-use Termwind\Components\Dd;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:usuarios.index')->only('index');
+        $this->middleware('can:usuarios.create')->only('create');
+        $this->middleware('can:usuarios.store')->only('store');
+        $this->middleware('can:usuarios.show')->only('show');
+        $this->middleware('can:usuarios.edit')->only('edit');
+        $this->middleware('can:usuarios.update')->only('update');
+        $this->middleware('can:usuarios.delete')->only('delete');
+    }
+
     public function index()
     {
-        $usuarios = Usuario::orderBy('nombres', 'asc')->get();
+        $usuarios = User::whereNot('id', 1)->get();
+        //dd($usuarios);
+        //$usuarios = User::orderBy('nombres', 'asc')->get();
         //$usuarios = Usuario::all();
 
         //return view('usuarios.index', ['usuarios' => $usuarios]);
 
-        return view('usuarios.index', compact('usuarios'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('usuarios.index', compact('usuarios'));
     }
 
     public function create()
@@ -47,14 +56,14 @@ class UserController extends Controller
     {
         $request->validate([
             //'codigo' => 'required|unique:usuarios|max:10',
-            'dni_ce' => 'required|unique:usuarios|numeric',
+            'dni_ce' => 'required|unique:users|numeric',
             'nombres' => 'required|max:50',
             'apellidos' => 'required|max:100',
             'sexo' => 'required',
             'fecha_nacimiento' => 'required',
             'celular' => 'required|numeric',
             'direccion' => 'required|max:100',
-            'email' => 'required|unique:usuarios|email',
+            'email' => 'required|unique:users|email',
             'rol' => 'required',
         ]);
 
@@ -66,8 +75,8 @@ class UserController extends Controller
         }
 
         //dd($request->input('dni_ce') . $iniciales);
-        
-        $usuario = new Usuario();
+
+        $usuario = new User();
         $usuario->codigo = $request->input('dni_ce') . $iniciales;
         $usuario->dni_ce = $request->input('dni_ce');
         //$usuario->foto = $request->input('foto');
@@ -78,23 +87,25 @@ class UserController extends Controller
         $usuario->celular = $request->input('celular');
         $usuario->direccion = $request->input('direccion');
         $usuario->email = $request->input('email');
-        $usuario->password = Crypt::encryptString($request->input('codigo'));
-        $usuario->rol_id = $request->input('rol');
+        $usuario->password = Hash::make($request->input('dni_ce') . $iniciales);
+        $usuario->estado = true;
         $usuario->created_at = (new DateTime())->getTimestamp();
 
         if ($usuario->save()) {
+            $usuario->assignRole($request->input('rol'));
             Alert::toast('Usuario Registrado', 'success', 1500);
             //return view('roles.index');
             return redirect()->route('usuarios.index');
         }
     }
 
-    public function show($id)
+    public function show(User $usuario)
     {
-        //
+
+        return view('usuarios.show', compact('usuario'));
     }
 
-    public function edit(Usuario $usuario)
+    public function edit(User $usuario)
     {
         $roles = Rol::all();
         /* $sexos = DB::table('parametros_globales')
@@ -112,7 +123,7 @@ class UserController extends Controller
         //return view('usuarios.edit', compact('usuario'));
     }
 
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, User $usuario)
     {
         //dd($request);
         /* $request->validate([
@@ -135,7 +146,8 @@ class UserController extends Controller
             $iniciales .= substr($primera, 0, 1);
         }
 
-        $usuario = Usuario::find($usuario->id);
+
+        $usuario = User::find($usuario->id);
         $usuario->codigo = $request->input('dni_ce') . $iniciales;
         $usuario->dni_ce = $request->input('dni_ce');
         //$usuario->foto = $request->input('foto');
@@ -146,19 +158,25 @@ class UserController extends Controller
         $usuario->celular = $request->input('celular');
         $usuario->direccion = $request->input('direccion');
         $usuario->email = $request->input('email');
-        $usuario->rol_id = $request->input('rol');
+        $usuario->password = Hash::make($request->input('dni_ce') . $iniciales);
+        $usuario->estado = $request->input('estado');
         $usuario->updated_at = (new DateTime())->getTimestamp();
 
-        if ($usuario->save()) {
-            //dd($request->all());
+        if ($usuario->update()) {
+            $usuario->roles()->detach();
+            $usuario->assignRole($request->input('rol'));
             Alert::toast('Usuario Actualizado', 'success');
             //return view('roles.index');
             return redirect()->route('usuarios.index');
         }
     }
 
-    public function destroy($id)
+    public function destroy(User $usuario)
     {
-        //
+        $usuario = User::find($usuario->id);
+        $usuario->estado = false;
+        $usuario->update();
+        Alert::toast('Usuario Eliminado', 'success');
+        return redirect()->route('usuarios.index');
     }
 }

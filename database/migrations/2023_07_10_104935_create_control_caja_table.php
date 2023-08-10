@@ -21,7 +21,7 @@ return new class extends Migration
             $table->time('hora_cierre')->nullable();
             $table->boolean('is_abierto');
             $table->unsignedBigInteger('responsable_id')->unsigned();
-            $table->foreign('responsable_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('responsable_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
 
         });

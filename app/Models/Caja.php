@@ -28,7 +28,7 @@ class Caja extends Model
     }
 
     public function _autorizadoPor(){
-        return $this->belongsTo(Usuario::class, 'autorizado_por', 'id');
+        return $this->belongsTo(User::class, 'autorizado_por', 'id');
     }
 
 }

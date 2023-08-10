@@ -9,7 +9,11 @@ class ListaCategoriasController extends Controller
 {
     public function listaCategorias()
     {
-        $categoriaGlobales = CategoriaGlobal::all();
+        //$categoriaGlobales = CategoriaGlobal::all();
+        $categoriaGlobales = CategoriaGlobal::whereNot('categoria_descripcion', 'INVERSIÓN')
+            ->whereNot('categoria_descripcion', 'CAJA CHICA')
+            ->whereNot('categoria_descripcion', 'VIÁTICOS')
+            ->get();
         return $categoriaGlobales;
     }
 }

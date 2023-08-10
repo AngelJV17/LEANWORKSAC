@@ -11,6 +11,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoriasGlobalesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:categorias-globales.index')->only('index');
+        $this->middleware('can:categorias-globales.create')->only('create');
+        $this->middleware('can:categorias-globales.store')->only('store');
+        $this->middleware('can:categorias-globales.show')->only('show');
+        $this->middleware('can:categorias-globales.edit')->only('edit');
+        $this->middleware('can:categorias-globales.update')->only('update');
+        $this->middleware('can:categorias-globales.delete')->only('delete');
+    }
+
     public function index()
     {
         //$categorias = CategoriaGlobal::all();
@@ -59,9 +70,15 @@ class CategoriasGlobalesController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(CategoriaGlobal $categoriaGlobal)
     {
-        //
+        $categorias = CategoriaGlobal::select('categorias_globales.categoria_descripcion', 'categorias_globales.parent_id', 'categorias_globales.id', 'categorias_globales.modulo', 'p.categoria_descripcion as  categoria_padre')
+            ->leftJoin('categorias_globales as p', 'p.id', '=', 'categorias_globales.parent_id')
+            ->get();
+
+        //dd($categorias);
+
+        return view('categorias-globales.show', ['categorias' => $categorias, 'categoriaGlobal' => $categoriaGlobal]);
     }
 
     public function edit(CategoriaGlobal $categoriaGlobal)

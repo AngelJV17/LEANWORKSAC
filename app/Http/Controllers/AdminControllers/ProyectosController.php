@@ -13,6 +13,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProyectosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:proyectos.index')->only('index');
+        $this->middleware('can:proyectos.create')->only('create');
+        $this->middleware('can:proyectos.store')->only('store');
+        $this->middleware('can:proyectos.show')->only('show');
+        $this->middleware('can:proyectos.edit')->only('edit');
+        $this->middleware('can:proyectos.update')->only('update');
+        $this->middleware('can:proyectos.delete')->only('delete');
+
+    }
 
     public function index()
     {

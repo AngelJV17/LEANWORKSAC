@@ -13,6 +13,6 @@ class CajaControl extends Model
 
     public function _responsable()
     {
-        return $this->belongsTo(Usuario::class, 'responsable_id', 'id');
+        return $this->belongsTo(User::class, 'responsable_id', 'id');
     }
 }

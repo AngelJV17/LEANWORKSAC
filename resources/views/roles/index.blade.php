@@ -40,11 +40,8 @@
                         <div class="card bg-light shadow-lg p-3 mb-5 bg-white mx-auto border-bottom-warning w-auto"
                             style="border-radius: 21px 21px 21px 21px;">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between mb-2">
+                                {{-- <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted" style="vertical-align: inherit;">Total
-                                        {{-- @if (array_column(json_decode($usuarios), 'rol_id') != null)
-                                            {{ array_count_values(array_column(json_decode($usuarios), 'rol_id'))[$rol->id] }}
-                                        @endif --}}
                                         @if (array_key_exists($rol->id, json_decode($usuarios)))
                                             <strong>{{ array_count_values(array_column(json_decode($usuarios), 'rol_id'))[$rol->id] }}</strong>
                                         @else
@@ -53,10 +50,10 @@
                                         usuarios
                                     </span>
                                     </span>
-                                </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-between align-items-end">
                                     <div class="role-heading">
-                                        <h5 class="mb-1 text-muted mb-2">{{ $rol->nombre }}</h5>
+                                        <h5 class="mb-1 text-muted mb-2 text-uppercase">{{ $rol->name }}</h5>
                                         <a href="{{ route('roles.edit', $rol) }}" type="button"
                                             class="class btn btn-outline-info btn-sm text-uppercase">
                                             Editar Rol <i class="fa-solid fa-pen fa-sm m-1"></i>

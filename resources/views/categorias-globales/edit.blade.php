@@ -11,7 +11,7 @@
                 <div class="p-3">
                     <div class="row align-items-center justify-content-center">
                         <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">NUEVA CATEGORÍA/SUBCATEGORÍA</h4>
+                            <h4 class="font-weight-bold">EDITAR CATEGORÍA/SUBCATEGORÍA</h4>
                         </div>
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-fw fa-folder-tree fa-lg"></i>

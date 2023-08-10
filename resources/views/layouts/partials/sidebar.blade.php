@@ -11,180 +11,152 @@
         <div class="sidebar-brand-text mx-3">LEAN WORK SAC</div>
     </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+    @can('indicadores')
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Indicadores</span>
-        </a>
-    </li>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Indicadores</span>
+            </a>
+        </li>
+    @endcan
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    @can('usuarios.index')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        USUARIOS
-    </div>
-
-    <!-- Nav Item - Proyectos -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('usuarios.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Usuarios</span>
-        </a>
-    </li>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('userCreate') }}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Nuevo Usuario</span>
-        </a>
-    </li> --}}
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        PROYECTO
-    </div>
-
-    <!-- Nav Item - Proyectos -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('proyectos.index') }}">
-            <i class="fas fa-fw fa-list-ol"></i>
-            <span>Proyectos</span>
-        </a>
-    </li>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('createProject') }}">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Nuevo Proyecto</span>
-        </a>
-    </li> --}}
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        INGRESOS / EGRESOS
-    </div>
-
-    <!-- Nav Item - Proyectos -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('cajas.index') }}">
-            <i class="fas fa-fw fa-money-bill-transfer"></i>
-            <span>Caja (Ingresos y Egresos)</span>
-        </a>
-    </li>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('createProject') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tabla Ingresos/Egresos</span>
-        </a>
-    </li> --}}
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('prestamos-internos.create') }}">
-            <i class="fas fa-fw fa-hand-holding-dollar"></i>
-            <span>Prestamo Interno</span>
-        </a>
-    </li>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('createProject') }}">
-            <i class="fas fa-fw fa-receipt"></i>
-            <span>Pago de Adelantos</span>
-        </a>
-    </li> --}}
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        ADMIN
-    </div>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('parametros-globales.create') }}">
-            <i class="fas fa-fw fa-database"></i>
-            <span>Registrar Categorías</span>
-        </a>
-    </li> --}}
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('categorias-globales.create') }}">
-            <i class="fas fa-fw fa-database"></i>
-            <span>Registrar Categorías</span>
-        </a>
-    </li> --}}
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('parametros-globales.index') }}">
-            <i class="fas fa-fw fa-folder-tree"></i>
-            <span>Categorías y Subcategoría</span>
-        </a>
-    </li> --}}
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('categorias-globales.index') }}">
-            <i class="fas fa-fw fa-folder-tree"></i>
-            <span>Categorías y Subcategoría</span>
-        </a>
-    </li>
-
-    {{-- <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Registro Categorias</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Registro Ingreso:</h6>
-                <a class="collapse-item font-weight-bold text-gray-800" href="#">Categoria de Ingreso</a>
-                <a class="collapse-item font-weight-bold text-gray-800" href="#">Subategoria de Ingreso </a>
-                <h6 class="collapse-header">Registro Egreso:</h6>
-                <a class="collapse-item font-weight-bold text-gray-800" href="#">Categoria de Egreso</a>
-                <a class="collapse-item font-weight-bold text-gray-800" href="#">Subategoria de Egreso </a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            USUARIOS
         </div>
-    </li> --}}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('roles.index') }}">
-            <i class="fas fa-fw fa-user-gear"></i>
-            <span>Roles</span>
-        </a>
-    </li>
+        <!-- Nav Item - Proyectos -->
+        <li class="nav-item nav-item {{ Request::is('usuarios', 'usuarios/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('usuarios.index') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>
+    @endcan
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        CONTROL DE CAJA
-    </div>
+    @can('proyectos.index')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('control-cajas.index') }}">
-            <i class="fas fa-fw fa-cash-register fa-xl"></i>
-            <span>Aperturar Caja</span>
-        </a>
-    </li>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            PROYECTO
+        </div>
 
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('listaUsuarios') }}">
-            <i class="fas fa-fw fa-users-gear"></i>
-            <span>Lista de Cargos/Roles</span>
-        </a>
-    </li> --}}
+        <!-- Nav Item - Proyectos -->
+        <li class="nav-item {{ Request::is('proyectos', 'proyectos/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('proyectos.index') }}">
+                <i class="fas fa-fw fa-list-ol"></i>
+                <span>Proyectos</span>
+            </a>
+        </li>
+    @endcan
+
+
+    @can('cajas.index')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            INGRESOS / EGRESOS
+        </div>
+        <!-- Nav Item - Proyectos -->
+        <li class="nav-item {{ Request::is('cajas', 'cajas/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cajas.index') }}">
+                <i class="fas fa-fw fa-cash-register"></i>
+                <span>Caja (Ingresos y Egresos)</span>
+            </a>
+        </li>
+    @endcan
+    @can('caja-chica.index')
+        <li class="nav-item {{ Request::is('caja-chica', 'caja-chica/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('caja-chica.index') }}">
+                <i class="fas fa-fw fa-sack-dollar"></i>
+                <span>Caja Chica</span>
+            </a>
+        </li>
+    @endcan
+    @can('viaticos.index')
+        <li class="nav-item {{ Request::is('viaticos', 'viaticos/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('viaticos.index') }}">
+                <i class="fas fa-fw fa-money-bills"></i>
+                <span>Viáticos</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('prestamos-internos.create')
+        <li class="nav-item {{ Request::is('prestamos-internos', 'prestamos-internos/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('prestamos-internos.create') }}">
+                <i class="fas fa-fw fa-hand-holding-dollar"></i>
+                <span>Prestamo Interno</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('inversiones.index')
+        <li class="nav-item {{ Request::is('inversiones', 'inversiones/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('inversiones.index') }}">
+                <i class="fas fa-fw fa-money-bill-trend-up"></i>
+                <span>Inversiones</span>
+            </a>
+        </li>
+    @endcan
+
+
+    @can('categorias-globales.index', 'roles.index')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            ADMIN
+        </div>
+
+        <li class="nav-item {{ Request::is('categorias-globales', 'categorias-globales/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('categorias-globales.index') }}">
+                <i class="fas fa-fw fa-folder-tree"></i>
+                <span>Categorías y Subcategoría</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Request::is('roles', 'roles/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('roles.index') }}">
+                <i class="fas fa-fw fa-user-gear"></i>
+                <span>Roles</span>
+            </a>
+        </li>
+
+        {{-- <li class="nav-item">
+            <a class="nav-link" href="{{ route('roles.index') }}">
+                <i class="fas fa-fw fa-user-lock"></i>
+                <span>Permisos</span>
+            </a>
+        </li> --}}
+    @endcan
+
+    @can('control-cajas.index')
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            CONTROL DE CAJA
+        </div>
+
+        <li class="nav-item {{ Request::is('control-cajas', 'control-cajas/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('control-cajas.index') }}">
+                <i class="fas fa-fw fa-vault fa-xl"></i>
+                <span>Control Caja</span>
+            </a>
+        </li>
+    @endcan
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

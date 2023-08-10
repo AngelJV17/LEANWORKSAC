@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -199,6 +199,10 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         //Collective
         Collective\Html\HtmlServiceProvider::class,
+        //Fortify
+        App\Providers\FortifyServiceProvider::class,
+        //Spatie
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

@@ -6,27 +6,12 @@
     <!-- Page Heading -->
     <div class="bg-gradient-primary text-white text-center" style="height: 180px; border-radius: 21px 21px 21px 21px;">
 
-        {{-- <div class="container">
-            <div class="d-flex align-items-center justify-content-center text-white text-center">
-                <div class="p-3">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">REGISTRAR INGRESO O EGRESO</h4>
-                        </div>
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-fw fa-money-bill-transfer fa-lg"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <div class="container">
             <div class="d-flex align-items-center justify-content-between text-white text-center">
                 <div class="p-3">
                     <div class="row align-items-center justify-content-center">
                         <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">EDITAR INGRESO O EGRESO</h4>
+                            <h4 class="font-weight-bold">VER INGRESO O EGRESO</h4>
                         </div>
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-fw fa-money-bill-transfer fa-lg"></i>
@@ -94,11 +79,13 @@
             </div>
         </div>
         <div class="text-center m-4">
-            <a type="button" class="btn btn-warning text-white font-weight-bold m-2" title="EDITAR"
-                href="{{ route('cajas.edit', $caja->id) }}">
-                <i class="fas fa-fw fa-pen fa-sm"></i>
-                EDITAR
-            </a>
+            @can('cajas.edit')
+                <a type="button" class="btn btn-warning text-white font-weight-bold m-2" title="EDITAR"
+                    href="{{ route('cajas.edit', $caja->id) }}">
+                    <i class="fas fa-fw fa-pen fa-sm"></i>
+                    EDITAR
+                </a>
+            @endcan
             <a type="button" class="btn btn-danger text-white font-weight-bold m-2" title="EDITAR"
                 href="{{ route('cajas.generar-pdf', $caja->id) }}">
                 <i class="fas fa-fw fa-file-pdf"></i>
@@ -106,6 +93,4 @@
             </a>
         </div>
     </div>
-
-    <script src="{{ asset('js/categorias-globales.js') }}"></script>
 @endsection

@@ -66,7 +66,7 @@
                                 <td>{{ $categoria->modulo }}</td>
                                 <td class="text-center">
                                     <a type="button" class="btn btn-outline-info btn-sm rounded-circle"
-                                        title="VER">
+                                        title="VER" href="{{ route('categorias-globales.show', $categoria->id) }}">
                                         <i class="fas fa-fw fa-eye fa-sm"></i>
                                     </a>
                                 </td>

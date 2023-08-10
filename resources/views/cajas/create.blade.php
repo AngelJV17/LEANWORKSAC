@@ -6,21 +6,6 @@
     <!-- Page Heading -->
     <div class="bg-gradient-primary text-white text-center" style="height: 180px; border-radius: 21px 21px 21px 21px;">
 
-        {{-- <div class="container">
-            <div class="d-flex align-items-center justify-content-center text-white text-center">
-                <div class="p-3">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">REGISTRAR INGRESO O EGRESO</h4>
-                        </div>
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-fw fa-money-bill-transfer fa-lg"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <div class="container">
             <div class="d-flex align-items-center justify-content-between text-white text-center">
                 <div class="p-3">
@@ -100,7 +85,7 @@
                     @enderror
                 </div>
                 <div class="form-group col-lg-6 col-md-6 col-xs-6 mb-4">
-                    <label for="autorizado_por">AUTORIZADO POR</label>
+                    <label for="autorizado_por">AUTORIZADO POR / REALIZADO POR</label>
                     <select id="autorizado_por" name="autorizado_por" class="form-control text-uppercase">
                         <option selected disabled>Seleccione</option>
                         @foreach ($responsables as $responsable)
@@ -115,7 +100,7 @@
             </div>
             <div class="form-row m-2">
                 <div class="form-group col-lg-6 col-md-6 col-xs-6 mb-4">
-                    <label for="realizado_a_favor">REALIZADO A FAVOR</label>
+                    <label for="realizado_a_favor">REALIZADO A FAVOR / RESPONSABLE</label>
                     <input type="text" class="form-control" id="realizado_a_favor" name="realizado_a_favor"
                         placeholder="Realizado a favor" value="{{ old('realizado_a_favor') }}">
                     @error('realizado_a_favor')
@@ -149,24 +134,3 @@
 
     <script src="{{ asset('js/categorias-globales.js') }}"></script>
 @endsection
-
-{{-- <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script> --}}

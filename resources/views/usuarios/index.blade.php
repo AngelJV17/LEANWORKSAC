@@ -44,8 +44,7 @@
                 <table id="dataTable" class="table table-striped table-bordered table-dark" width="100%" cellspacing="0">
                     <thead class="thead-light">
                         <tr>
-                            <tH rowspan="2" class="align-middle">CÓDIGO</tH>
-                            <th rowspan="2" class="align-middle">DNI</th>
+                            <th rowspan="2" class="align-middle">N°</th>
                             <th rowspan="2" class="align-middle">NOMBRES</th>
                             <th rowspan="2" class="align-middle">APELLIDOS</th>
                             <th rowspan="2" class="align-middle">TELÉFONO</th>
@@ -54,39 +53,56 @@
                             <th colspan="3" class="align-middle text-center">ACCIONES</th>
                         </tr>
                         <tr>
-                            <th class="align-middle text-center">VER</th>
-                            <th class="align-middle text-center">EDITAR</th>
-                            <th class="align-middle text-center">ELIMINAR</th>
+                            @can('usuarios.show')
+                                <th class="align-middle text-center">VER</th>
+                            @endcan
+                            @can('usuarios.edit')
+                                <th class="align-middle text-center">EDITAR</th>
+                            @endcan
+                            @can('usuarios.delete')
+                                <th class="align-middle text-center">ELIMINAR</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $count = 1; ?>
                         @foreach ($usuarios as $usuario)
-                            <tr>
-                                <td>{{ $usuario->codigo }}</td>
-                                <td>{{ $usuario->dni_ce }}</td>
+                            <tr @class(['bg-danger' => !$usuario->estado])>
+                                <td>{{ $count++ }}</td>
                                 <td>{{ $usuario->nombres }}</td>
                                 <td>{{ $usuario->apellidos }}</td>
                                 <td>{{ $usuario->celular }}</td>
                                 <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->rol->nombre }}</td>
-                                <td class="text-center">
-                                    <a type="button" class="btn btn-outline-info btn-sm rounded-circle"
-                                        title="VER" href="#">
-                                        <i class="fas fa-fw fa-eye fa-sm"></i>
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <a type="button" class="btn btn-outline-warning btn-sm rounded-circle"
-                                        title="EDITAR" href="{{route('usuarios.edit', $usuario->id)}}">
-                                        <i class="fas fa-fw fa-pen fa-sm"></i>
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-circle"
-                                        title="ELIMINAR">
-                                        <i class="fas fa-fw fa-trash fa-sm"></i>
-                                    </button>
-                                </td>
+                                {{-- <td>{{ $usuario->rol->nombre }}</td> --}}
+                                <td>{{ $usuario->roles()->first()->name }}</td>
+                                @can('usuarios.show')
+                                    <td class="text-center">
+                                        <a type="button" class="btn btn-outline-info btn-sm rounded-circle" title="VER"
+                                            href="{{ route('usuarios.show', $usuario->id) }}">
+                                            <i class="fas fa-fw fa-eye fa-sm"></i>
+                                        </a>
+                                    </td>
+                                @endcan
+                                @can('usuarios.edit')
+                                    <td class="text-center">
+                                        <a type="button" class="btn btn-outline-warning btn-sm rounded-circle" title="EDITAR"
+                                            href="{{ route('usuarios.edit', $usuario->id) }}">
+                                            <i class="fas fa-fw fa-pen fa-sm"></i>
+                                        </a>
+                                    </td>
+                                @endcan
+                                @can('usuarios.delete')
+                                    <td class="text-center">
+                                        <form action="{{ route('usuarios.delete', $usuario->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" title="ELIMINAR" @class(['btn btn-outline-danger btn-sm rounded-circle','d-none' => !$usuario->estado])
+                                                data-confirm-delete="true">
+                                                <i class="fas fa-fw fa-trash fa-sm"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -94,6 +110,5 @@
             </div>
         </div>
     </div>
-
     <!-- /.container-fluid -->
 @endsection

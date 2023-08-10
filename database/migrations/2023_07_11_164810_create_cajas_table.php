@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('subtipo');
 
             $table->unsignedBigInteger('autorizado_por')->unsigned();
-            $table->foreign('autorizado_por')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('autorizado_por')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             
             $table->string('realizado_a_favor');
             $table->decimal('monto', 11, 2);

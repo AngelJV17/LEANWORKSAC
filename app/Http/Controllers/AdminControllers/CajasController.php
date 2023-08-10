@@ -4,21 +4,36 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Caja;
+use App\Models\CajaChica;
 use App\Models\CajaControl;
 use App\Models\CategoriaGlobal;
+use App\Models\Inversion;
 use App\Models\PrestamoInterno;
 use App\Models\Proyecto;
-use App\Models\Usuario;
+use App\Models\User;
+use App\Models\Viatico;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Switch_;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use function PHPUnit\Framework\isEmpty;
 
 class CajasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:cajas.index')->only('index');
+        $this->middleware('can:cajas.create')->only('create');
+        $this->middleware('can:cajas.store')->only('store');
+        $this->middleware('can:cajas.show')->only('show');
+        $this->middleware('can:cajas.edit')->only('edit');
+        $this->middleware('can:cajas.update')->only('update');
+        $this->middleware('can:cajas.delete')->only('delete');
+    }
+
     public function index(Request $request)
     {
         if ($request->proyecto != null) {
@@ -35,8 +50,11 @@ class CajasController extends Controller
             $proyectos = Proyecto::all();
             //$cajas = Caja::all();
             $cajas = Caja::orderBy('id', 'desc')->get();
+            $total_ingresos = Caja::where('operacion', 2)->sum('monto');
+            $total_egresos = Caja::where('operacion', 3)->sum('monto');
+            $saldo = $total_ingresos - $total_egresos;
             $is_filter = false;
-            return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas]);
+            return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas, 'total_ingresos' => $total_ingresos, 'total_egresos' => $total_egresos, 'saldo' => $saldo]);
         }
     }
 
@@ -46,7 +64,7 @@ class CajasController extends Controller
         $tipo_operaciones = CategoriaGlobal::where('categoria_descripcion', 'INGRESOS')
             ->orWhere('categoria_descripcion', 'EGRESOS')
             ->get();
-        $responsables = Usuario::whereNot('id', 1)->get();
+        $responsables = User::whereNot('id', 1)->get();
 
         //dd($tipo_operaciones);
         return view('cajas.create',  ['proyectos' => $proyectos, 'tipo_operaciones' => $tipo_operaciones, 'responsables' => $responsables]);
@@ -55,94 +73,9 @@ class CajasController extends Controller
     public function prestamoInterno()
     {
         $proyectos = Proyecto::all();
-        $responsables = Usuario::whereNot('id', 1)->get();
+        $responsables = User::whereNot('id', 1)->get();
 
         return view('cajas.prestamo-interno', ['proyectos' => $proyectos, 'responsables' => $responsables]);
-    }
-
-    public function savePrestamoInterno(Request $request)
-    {
-        //dd($request);
-        $request->validate([
-            'proyecto_emisor' => 'required',
-            'proyecto_receptor' => 'required',
-            'autorizado_por' => 'required',
-            'monto' => 'required|numeric',
-            'descripcion' => 'required',
-        ]);
-
-        $id_proy_emis = $request->input('proyecto_emisor');
-        $id_proy_recep = $request->input('proyecto_receptor');
-
-        $proy_emis = Proyecto::find($id_proy_emis);
-        $proy_emis = $proy_emis->nombre_proyecto;
-        $proy_recep = Proyecto::find($id_proy_recep);
-        $proy_recep = $proy_recep->nombre_proyecto;
-        //dd($proy_emis.' --- '.$proy_recep);
-
-        $monto_nuevo = $request->input('monto');
-        //$id_proyecto = $request->input('proyecto_id');
-        $total_ingresos = $this->obetenerTotalIngresos($id_proy_emis);
-        $total_egresos = $this->obetenerTotalEgresos($id_proy_emis);
-        $monto_total = $total_ingresos - $total_egresos;
-
-        $control_caja = CajaControl::orderBy('id', 'desc')->first();
-        $fecha_caja_control = ($control_caja != null) ? $control_caja->created_at->format('d-m-Y') :  '';
-        $hoy = Carbon::now()->format('d-m-Y');
-
-        //dd($monto_total);
-
-        if ($fecha_caja_control == $hoy) {
-            if ($monto_total >= $monto_nuevo) {
-
-                //EGRESO PRÉSTAMO
-                $caja1 = new Caja();
-                $caja1->proyecto_id = $request->input('proyecto_emisor');
-                $caja1->operacion = 3; //OPERACION EGRESOS ID
-                $caja1->tipo = 15; //TIPO EGRESO ID
-                $caja1->subtipo = 52; //SUBTIPO PRÉSTAMO
-                $caja1->autorizado_por = $request->input('autorizado_por');
-                $caja1->realizado_a_favor = $proy_recep;
-                $caja1->monto = $request->input('monto');
-                $caja1->descripcion = $request->input('descripcion');
-                $caja1->is_prestamo = true;
-                //$caja1->proyecto_prestador = $request->input('proyecto_emisor');
-                //$caja1->proyecto_acreedor = $request->input('proyecto_receptor');
-                $caja1->id_control_caja = $control_caja->id;
-                $caja1->created_at = (new DateTime())->getTimestamp();
-
-                //INGRESO PRÉSTAMO
-                $caja2 = new Caja();
-                $caja2->proyecto_id = $request->input('proyecto_receptor');
-                $caja2->operacion = 2; //OPERACION INGRESOS ID
-                $caja2->tipo = 6; //TIPO INGRESO ID
-                $caja2->subtipo = 9; //SUBTIPO PRÉSTAMO
-                $caja2->autorizado_por = $request->input('autorizado_por');
-                $caja2->realizado_a_favor = $proy_emis;
-                $caja2->monto = $request->input('monto');
-                $caja2->descripcion = $request->input('descripcion');
-                $caja2->created_at = (new DateTime())->getTimestamp();
-                $caja2->is_prestamo = true;
-                //$caja2->proyecto_prestador = $request->input('proyecto_emisor');
-                //$caja2->proyecto_acreedor = $request->input('proyecto_receptor');
-                $caja2->id_control_caja = $control_caja->id;
-                $caja2->created_at = (new DateTime())->getTimestamp();
-
-                if ($caja1->save()) {
-                    if ($caja2->save()) {
-                        Alert::toast('Préstamo Registrado', 'success', 1500);
-                        //return view('roles.index');
-                        return redirect()->route('cajas.index');
-                    }
-                }
-            } else {
-                Alert::error('Lo sentimos', 'Saldo insuficiente para realizar un PRESTAMO. Saldo actual: ' . $monto_total);
-                return redirect()->route('cajas.prestamo-interno');
-            }
-        } else {
-            Alert::error('Lo sentimos', 'Debes aperturar una caja primero');
-            return redirect()->route('control-cajas.index');
-        }
     }
 
     public function store(Request $request)
@@ -184,6 +117,9 @@ class CajasController extends Controller
             $caja->monto = $request->input('monto');
             $caja->descripcion = $request->input('descripcion');
             $caja->is_prestamo = false;
+            $caja->is_inversion = false;
+            $caja->is_caja_chica = false;
+            $caja->is_viatico = false;
             $caja->id_control_caja = $control_caja->id;
             $caja->created_at = (new DateTime())->getTimestamp();
 
@@ -199,7 +135,7 @@ class CajasController extends Controller
                         return redirect()->route('cajas.show', compact('caja'));
                     }
                 } else {
-                    Alert::error('Lo sentimos', 'Saldo insuficiente para realizar un registro de EGRESO. Saldo actual: ' . $saldo_total);
+                    Alert::error('Lo sentimos', 'Saldo insuficiente para realizar un registro de EGRESO. Saldo actual: S/. ' . number_format($saldo_total, 2));
                     return redirect()->route('cajas.create');
                 }
             } else {
@@ -212,7 +148,7 @@ class CajasController extends Controller
             }
         } else {
             Alert::error('Lo sentimos', 'Debes aperturar una caja primero');
-            return redirect()->route('control-cajas.index');
+            return redirect()->route('control-cajas.create');
         }
     }
 
@@ -227,7 +163,7 @@ class CajasController extends Controller
         $tipo_operaciones = CategoriaGlobal::where('categoria_descripcion', 'INGRESOS')
             ->orWhere('categoria_descripcion', 'EGRESOS')
             ->get();
-        $responsables = Usuario::whereNot('id', 1)->get();
+        $responsables = User::whereNot('id', 1)->get();
 
         return view('cajas.edit',  ['proyectos' => $proyectos, 'caja' => $caja, 'tipo_operaciones' => $tipo_operaciones, 'responsables' => $responsables]);
     }
@@ -262,7 +198,6 @@ class CajasController extends Controller
             $caja->realizado_a_favor = $request->input('realizado_a_favor');
             $caja->monto = $request->input('monto');
             $caja->descripcion = $request->input('descripcion');
-            $caja->is_prestamo = false;
             $caja->id_control_caja = $control_caja->id;
             $caja->updated_at = (new DateTime())->getTimestamp();
 
@@ -282,7 +217,62 @@ class CajasController extends Controller
     {
         $caja = Caja::find($caja->id);
 
+        $prestamo = $caja->is_prestamo ? 1 : 0;
+
+        $tipo = '';
+
         if ($caja->is_prestamo) {
+            $tipo = 'PRESTAMO';
+        } elseif ($caja->is_inversion) {
+            $tipo = 'INVERSION';
+        } elseif ($caja->is_caja_chica) {
+            $tipo = 'CAJA CHICA';
+        } elseif ($caja->is_viatico) {
+            $tipo = 'VIATICO';
+        } else {
+            $tipo = 'CAJA';
+        }
+
+        //dd($prestamo);
+
+        switch ($tipo) {
+            case 'PRESTAMO':
+                $cajas_prestamo = Caja::where('id_prestamos_internos', $caja->id_prestamos_internos)->get();
+                $prestamo = PrestamoInterno::find($caja->id_prestamos_internos);
+                foreach ($cajas_prestamo as $caja) {
+                    $caja->delete();
+                }
+                //dd($prestamo);
+                $prestamo->delete();
+                Alert::toast('Caja de Registro y Préstamo eliminado', 'success');
+                return redirect()->route('cajas.index');
+                break;
+            case 'INVERSION':
+                $inversion = Inversion::find($caja->id_inversiones);
+                $inversion->delete();
+                Alert::toast('Inversion Eliminada', 'success');
+                return redirect()->route('cajas.index');
+                break;
+            case 'CAJA CHICA':
+                $cajaChica = CajaChica::find($caja->id_caja_chica);
+                $cajaChica->delete();
+                Alert::toast('Caja Chica Eliminada', 'success');
+                return redirect()->route('cajas.index');
+                break;
+            case 'VIATICO':
+                $viatico = Viatico::find($caja->id_viaticos);
+                $viatico->delete();
+                Alert::toast('Viático Eliminado', 'success');
+                return redirect()->route('cajas.index');
+                break;
+            default:
+                $caja->delete();
+                Alert::toast('Caja de Registro Eliminada', 'success');
+                return redirect()->route('cajas.index');
+                break;
+        }
+
+        /* if ($caja->is_prestamo) {
             $cajas_prestamo = Caja::where('id_prestamos_internos', $caja->id_prestamos_internos)->get();
             $prestamo = PrestamoInterno::find($caja->id_prestamos_internos);
             foreach ($cajas_prestamo as $caja) {
@@ -297,7 +287,7 @@ class CajasController extends Controller
             $caja->delete();
             Alert::toast('Caja de Registro Eliminada', 'success');
             return redirect()->route('cajas.index');
-        }
+        } */
     }
 
     public function totalIngresos($id)

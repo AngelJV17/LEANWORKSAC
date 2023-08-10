@@ -3,23 +3,31 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Rol;
-use App\Models\Usuario;
-use DateTime;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\View\View;
-
-
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:roles.index')->only('index');
+        $this->middleware('can:roles.create')->only('create');
+        $this->middleware('can:roles.store')->only('store');
+        $this->middleware('can:roles.show')->only('show');
+        $this->middleware('can:roles.edit')->only('edit');
+        $this->middleware('can:roles.update')->only('update');
+        $this->middleware('can:roles.delete')->only('delete');
+    }
+
     public function index()
     {
         //$roles = Rol::latest()->paginate(5);
-        $roles = Rol::all();
-        $usuarios = Usuario::all();
+        $roles = Role::all();
+        $usuarios = User::all();
         //$roles = DB::table('roles')->orderBy('nombre')->get();
 
         //dd($roles);
@@ -31,80 +39,62 @@ class RolController extends Controller
 
     public function create()
     {
-        return view('roles.create');
+        $permisos = Permission::all();
+        return view('roles.create', compact('permisos'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|unique:roles|max:25',
-            'descripcion' => 'required|max:100',
-            'gestionUsuario' => 'required',
-            'gestionRoles' => 'required',
-            'gestionProyectos' => 'required',
-            'gestionIngresoEgreso' => 'required',
-            'getionCategoriasGlobales' => 'required',
+            'nombre' => 'required|unique:roles,name',
+            'permission' => 'required',
         ]);
 
-        $rol = new Rol();
-        $rol->nombre = $request->input('nombre');
-        $rol->descripcion = $request->input('descripcion');
-        $rol->gestion_usuario = $request->input('gestionUsuario');
-        $rol->gestion_caja = $request->input('gestionIngresoEgreso');
-        $rol->gestion_roles = $request->input('gestionRoles');
-        $rol->gestion_proyectos = $request->input('gestionProyectos');
-        $rol->gestion_parametros_globales = $request->input('getionCategoriasGlobales');
-        $rol->created_at = (new DateTime())->getTimestamp();
+        $rol = new Role();
 
-        /* if ($request->fails()) {
-            //return response()->json();
-            $error = $request->messages()->toJson();
-        } */
-
-        //dd($rol);
-
-        //$rol->save();
-
+        /* $rol = Role::create(['name' => $request->input('name')]); */
+        $rol->name = $request->input('nombre');
         if ($rol->save()) {
+            $rol->syncPermissions($request->input('permission'));
             Alert::toast('Rol Registrado', 'success');
             //return view('roles.index');
             return redirect()->route('roles.index');
         }
     }
 
-    public function show(Rol $rol)
+    public function show(Role $rol)
     {
         return view('roles.show', compact('rol'));
     }
 
-    public function edit(Rol $rol)
+    public function edit(Role $rol)
     {
-        //dd($rol);
-        return view('roles.edit', compact('rol'));
+        /* $permisos = Permission::all();
+        return view('roles.edit', compact('rol', 'permisos')); */
+
+        $rol = Role::find($rol->id);
+        $permisos = Permission::get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $rol->id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
+            ->all();
+
+        return view('roles.edit', compact('rol', 'permisos', 'rolePermissions'));
     }
 
-    public function update(Request $request, Rol $rol)
+    public function update(Request $request, Role $rol)
     {
         $request->validate([
-            //'nombre' => 'required|max:25|unique:roles,nombre,' . $rol->id,
-            'nombre' => 'required|unique:roles|max:25',
-            'descripcion' => 'required|max:100',
-            'gestionUsuario' => 'required',
-            'gestionRoles' => 'required',
-            'gestionProyectos' => 'required',
-            'gestionIngresoEgreso' => 'required',
-            'getionCategoriasGlobales' => 'required',
+            'name' => 'required|max:25|unique:roles,name,' . $rol->id,
+            //'name' => 'required|unique:roles|max:25',
         ]);
 
-        $rol = Rol::find($rol->id);
-        $rol->nombre = $request->input('nombre');
-        $rol->descripcion = $request->input('descripcion');
-        $rol->gestion_usuario = $request->input('gestionUsuario');
-        $rol->gestion_caja = $request->input('gestionIngresoEgreso');
-        $rol->gestion_roles = $request->input('gestionRoles');
-        $rol->gestion_proyectos = $request->input('gestionProyectos');
-        $rol->gestion_parametros_globales = $request->input('getionCategoriasGlobales');
-        //$rol->update_at = (new DateTime())->getTimestamp();
+        $permission = $request->input('permission');
+        //dd($permission);
+
+        $rol = Role::find($rol->id);
+
+
+        $rol->givePermissionTo($permission);
 
 
         if ($rol->save()) {
@@ -115,9 +105,9 @@ class RolController extends Controller
         }
     }
 
-    public function destroy(Rol $rol)
+    public function destroy(Role $rol)
     {
-        $rol = Rol::find($rol->id);
+        $rol = Role::find($rol->id);
         $rol->delete();
         Alert::toast('Rol Eliminado', 'success');
         return redirect()->route('roles.index');

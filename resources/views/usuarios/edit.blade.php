@@ -6,21 +6,6 @@
     <!-- Page Heading -->
     <div class="bg-gradient-primary text-white text-center" style="height: 180px; border-radius: 21px 21px 21px 21px;">
 
-        {{-- <div class="container">
-            <div class="d-flex align-items-center justify-content-center">
-                <div class="p-3">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">NUEVO USUARIO</h4>
-                        </div>
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-fw fa-user-plus fa-lg"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <div class="container">
             <div class="d-flex align-items-center justify-content-between text-white text-center">
                 <div class="p-3">
@@ -55,14 +40,6 @@
             @method('PUT')
             {{-- {{dd($usuario)}} --}}
             <div class="form-row m-2">
-                {{-- <div class="form-group col-lg-2 col-md-6 col-xs-6 mb-4">
-                    <label for="codigo">CÓDIGO USUARIO</label>
-                    <input type="text" class="form-control" id="codigo" name="codigo"
-                        placeholder="Código usuario" readonly value="{{ $usuario->codigo }}">
-                    @error('codigo')
-                        <div class="alert alert-danger m-2">{{ $message }}</div>
-                    @enderror
-                </div> --}}
                 <div class="form-group col-lg-6 col-md-6 col-xs-6 mb-4">
                     <label for="dni_ce">DNI</label>
                     <input type="text" class="form-control" id="dni_ce" name="dni_ce" placeholder="DNI"
@@ -147,15 +124,29 @@
                     <select id="rol" name="rol" class="form-control">
                         <option selected>Seleccione</option>
                         @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}"
-                                @if ($rol->id == $usuario->rol_id) {{ 'selected' }} @endif>
-                                {{ $rol->nombre }}
+                            <option value="{{ $rol->name }}"
+                                @if ($rol->name == $usuario->roles()->first()->name) {{ 'selected' }} @endif>
+                                {{ $rol->name }}
                             </option>
                         @endforeach
                     </select>
                     @error('rol')
                         <div class="alert alert-danger m-2">{{ $message }}</div>
                     @enderror
+                </div>
+                <div class="form-group col-md-6 mb-4">
+                    <label for="rol">ESTADO</label>
+                    <br>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="estado_true" name="estado"
+                            class="custom-control-input"  value="1" @checked($usuario->estado)>
+                        <label class="custom-control-label @if ($usuario->estado) font-weight-bold text-success @endif" for="estado_true">Habilitado</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="estado_false" name="estado"
+                            class="custom-control-input"  value="0" @checked(!$usuario->estado)>
+                        <label class="custom-control-label @if (!$usuario->estado) font-weight-bold text-danger @endif" for="estado_false">Deshabilitado</label>
+                    </div>
                 </div>
             </div>
             <div class="text-center m-4">

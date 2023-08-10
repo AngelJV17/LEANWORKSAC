@@ -6,21 +6,6 @@
     <!-- Page Heading -->
     <div class="bg-gradient-primary text-white text-center" style="height: 180px; border-radius: 21px 21px 21px 21px;">
 
-        {{-- <div class="container">
-            <div class="d-flex align-items-center justify-content-center text-white text-center">
-                <div class="p-3">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="sidebar-brand-text m-3">
-                            <h4 class="font-weight-bold">NUEVO PROYECTO</h4>
-                        </div>
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-fw fa-folder-plus fa-lg"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
 
         <div class="container">
             <div class="d-flex align-items-center justify-content-between text-white text-center">

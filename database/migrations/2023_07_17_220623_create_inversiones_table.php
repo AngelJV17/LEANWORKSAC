@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('inversiones', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
-            $table->string('nombre')->unique();
+            $table->unsignedBigInteger('proyecto_id');
+            $table->foreign('proyecto_id')->references('id')->on('proyectos')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('realizado_por');
+            $table->foreign('realizado_por')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->decimal('monto', 11, 2);
             $table->string('descripcion');
-            $table->unsignedInteger('gestion_usuario');
-            $table->unsignedInteger('gestion_caja');
-            $table->unsignedInteger('gestion_roles');
-            $table->unsignedInteger('gestion_proyectos');
-            $table->unsignedInteger('gestion_parametros_globales');
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('inversiones');
     }
 };

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- <meta name="description" content="">
     <meta name="author" content=""> --}}
-    <title>LEAN WORK SAC {{ isset($title) ? '| ' . $title : '' }}</title>
+    <title>{{ config('app.name', 'LEAN WORK SAC') }}{{ isset($title) ? '| ' . $title : '' }}</title>
     <link rel="shortcut icon" href="{{ asset('admin_assets/img/logo_icon.png') }}">
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -26,19 +26,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
-<style>
-    .inicio{
-        width: 0%;
-    }
-    .final{
-        width: 100%;
-    }
-    .animacion{
-        transition: all 2s forwards .5s;
-    }
-</style>
-
-<body id="page-top">
+<body>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -63,14 +51,22 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{ asset('admin_assets/img/undraw_profile.svg') }}">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->nombres }}</span>
+                                @if (Auth::user()->sexo == 4)
+                                    <img class="img-profile rounded-circle"
+                                        src="{{ asset('admin_assets/img/profiles/perfil_m_01.png') }}" alt=""
+                                        style="border: 2px solid white;">
+                                @else
+                                    <img class="img-profile rounded-circle"
+                                        src="{{ asset('admin_assets/img/profiles/perfil_f_03.png') }}" alt=""
+                                        style="border: 2px solid white;">
+                                @endif
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('usuarios.show', Auth::user()->id) }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -107,29 +103,11 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Desea cerar sesión?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Seleccione "Cerrar Sesión" a continuación para finalizar la sesión.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @include('sweetalert::alert')
-
-    @include('layouts.partials.scripts')
+    @include('layouts.modals.cerrar-sesion')
 </body>
+
+@include('sweetalert::alert')
+
+@include('layouts.partials.scripts')
 
 </html>
