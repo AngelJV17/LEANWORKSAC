@@ -19,7 +19,6 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/jquery-ui-1.13.2/jquery-ui.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="{{ asset('admin_assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_assets/vendor/datatables/responsive.bootstrap4.min.css') }}">
 
@@ -109,5 +108,7 @@
 @include('sweetalert::alert')
 
 @include('layouts.partials.scripts')
+
+@yield('javascript')
 
 </html>

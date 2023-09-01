@@ -204,6 +204,7 @@
                             <th rowspan="2" class="align-middle">AUTORIZADO POR</th>
                             <th rowspan="2" class="align-middle">REALIZADO A FAVOR</th>
                             <th rowspan="2" class="align-middle">MONTO</th>
+                            <th rowspan="2" class="align-middle">FECHA</th>
                             <th colspan="3" class="align-middle text-center">ACCIONES</th>
                         </tr>
                         <tr>
@@ -230,6 +231,7 @@
                                 <td>{{ $caja->_autorizadoPor->nombres }} {{ $caja->_autorizadoPor->apellidos }}</td>
                                 <td>{{ $caja->realizado_a_favor }}</td>
                                 <td>S/. {{ number_format($caja->monto, 2) }}</td>
+                                <td>{{ $caja->created_at }}</td>
                                 @can('cajas.show')
                                     <td class="text-center">
                                         <a type="button" class="btn btn-outline-info btn-sm rounded-circle" title="VER"

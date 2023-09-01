@@ -16,10 +16,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Switch_;
 use RealRashid\SweetAlert\Facades\Alert;
-
-use function PHPUnit\Framework\isEmpty;
 
 class CajasController extends Controller
 {
@@ -50,12 +47,17 @@ class CajasController extends Controller
             $proyectos = Proyecto::all();
             //$cajas = Caja::all();
             $cajas = Caja::orderBy('id', 'desc')->get();
-            $total_ingresos = Caja::where('operacion', 2)->sum('monto');
-            $total_egresos = Caja::where('operacion', 3)->sum('monto');
+            $total_ingresos = Caja::where('operacion', 2)->where('is_prestamo', 0)->sum('monto');
+            $total_egresos = Caja::where('operacion', 3)->where('is_prestamo', 0)->sum('monto');
             $saldo = $total_ingresos - $total_egresos;
             $is_filter = false;
             return view('cajas.index', ['is_filter' => $is_filter, 'proyectos' => $proyectos, 'cajas' => $cajas, 'total_ingresos' => $total_ingresos, 'total_egresos' => $total_egresos, 'saldo' => $saldo]);
         }
+    }
+
+    public function getAll(){
+        $cajas = Caja::all();
+        return $cajas;
     }
 
     public function create()

@@ -3,7 +3,6 @@
 {{-- @section('titulo', 'Indicadores') --}}
 
 @section('contenido')
-
     <!-- Begin Page Content -->
 
     {{-- <!-- Page Heading -->
@@ -16,9 +15,9 @@
         <div class="card bg-gradient-dark border-left-light shadow h-100 p-3">
             <div class="input-group shadow">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Proyecto</label>
+                    <label class="input-group-text" for="proyecto_select">Proyecto</label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
+                <select class="custom-select" id="proyecto_select">
                     <option selected disabled>Seleccione el proyecto...</option>
                     @foreach ($proyectos as $proyecto)
                         <option value="{{ $proyecto->id }}">{{ $proyecto->nombre_proyecto }}</option>
@@ -38,8 +37,9 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-suborder-left-success text-uppercase mb-1">
-                                Ingresos ( {{ date("M.Y")}} )</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">S/. 40,000</div>
+                                Ingresos ( {{ date('M.Y') }} )</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">S/. {{ number_format($total_ingresos, 2) }}
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-coins fa-2x text-gray-300"></i>
@@ -56,8 +56,9 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Egresos ( {{ date("M.Y")}} )</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">S/. 15,000</div>
+                                Egresos ( {{ date('M.Y') }} )</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">S/. {{ number_format($total_egresos, 2) }}
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-coins fa-2x text-gray-300"></i>
@@ -129,21 +130,6 @@
                     <h6 class="m-0 font-weight-bold text-primary">Gasto Proyectado / Ejecutado</h6>
                 </div>
                 <div class="card-body">
-                    {{-- <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
                     <h4 class="small font-weight-bold">Gasto Ejecutado<span class="float-right">S/. 35,000</span></h4>
                     <div class="progress mb-4">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75"
@@ -158,7 +144,6 @@
             </div>
 
         </div>
-
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
@@ -248,14 +233,38 @@
         </div>
     </div>
 
+
+   {{--  <div class="row">
+
+        <div class="col-xl-12 col-lg-12">
+            <!-- Bar Chart -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Gastos Mensuales (Nombre del Proyecto)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="cajasBar"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div> --}}
+
     <!-- /.container-fluid -->
+@endsection
 
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
+@section('javascript')
+<!-- Page level plugins -->
+<script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('admin_assets/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('admin_assets/js/demo/chart-pie-demo.js') }}"></script>
-    <script src="{{ asset('admin_assets/js/demo/chart-bar-demo.js') }}"></script>
+<!-- Page level custom scripts -->
+<script src="{{ asset('admin_assets/js/demo/chart-area-demo.js') }}"></script>
+{{-- <script src="{{ asset('admin_assets/js/demo/chart-bar-caja.js') }}"></script> --}}
+<script src="{{ asset('admin_assets/js/demo/chart-pie-demo.js') }}"></script>
+<script src="{{ asset('admin_assets/js/demo/chart-bar-demo.js') }}"></script>
+
+{{-- <script src="{{ asset('admin_assets/js/demo/graficos.js') }}"></script> --}}
 @endsection

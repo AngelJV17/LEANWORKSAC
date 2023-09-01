@@ -107,6 +107,8 @@
     @include('sweetalert::alert')
 
     @include('layouts.partials.scripts')
+
+    @yield('javascript')
 </body>
 
 </html>

@@ -8,7 +8,6 @@ use App\Http\Controllers\AdminControllers\InversionesController;
 use App\Http\Controllers\AdminControllers\PrestamosInternosController;
 use App\Http\Controllers\AdminControllers\ProyectosController;
 use App\Http\Controllers\AdminControllers\RolController;
-use App\Http\Controllers\AdminControllers\SustentoCajaChicaController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\ViaticosController;
 use App\Http\Controllers\HomeController;
@@ -135,4 +134,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //PROYECTOS
     Route::get('lista-proyectos', [ListaProyectos::class, 'listaProyectos'])->name('lista-proyectos')->middleware('can:lista-proyectos');
+
+    //CAJAS
+    Route::get('cajas-all', [CajasController::class, 'getAll'])->name('cajas-all');
 });
