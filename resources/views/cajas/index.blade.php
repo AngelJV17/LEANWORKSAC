@@ -231,7 +231,7 @@
                                 <td>{{ $caja->_autorizadoPor->nombres }} {{ $caja->_autorizadoPor->apellidos }}</td>
                                 <td>{{ $caja->realizado_a_favor }}</td>
                                 <td>S/. {{ number_format($caja->monto, 2) }}</td>
-                                <td>{{ $caja->created_at }}</td>
+                                <td>{{ date('d-m-Y', strtotime($caja->created_at)) }}</td>
                                 @can('cajas.show')
                                     <td class="text-center">
                                         <a type="button" class="btn btn-outline-info btn-sm rounded-circle" title="VER"
