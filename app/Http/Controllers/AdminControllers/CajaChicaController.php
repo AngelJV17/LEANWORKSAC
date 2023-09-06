@@ -65,7 +65,7 @@ class CajaChicaController extends Controller
 
         if ($fecha_caja_control == $hoy && $control_caja->is_abierto) {
 
-            if ($saldo_total >= $monto_nuevo) {
+            if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
                 $cajaChica = new CajaChica();
                 $cajaChica->proyecto_id = $request->input('proyecto');
                 $cajaChica->responsable_id = $request->input('responsable');
@@ -182,11 +182,19 @@ class CajaChicaController extends Controller
                     //INGRESO PRÉSTAMO
                     $caja->descripcion = $request->input('descripcion');
                     $caja->updated_at = (new DateTime())->getTimestamp();
+                    if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
 
-                    if ($caja->update()) {
-                        Alert::toast('Caja Chica Sustentada', 'success', 1500);
-                        //return view('roles.index');
-                        return redirect()->route('caja-chica.index');
+                        if ($caja->update()) {
+                            Alert::toast('Caja Chica Sustentada', 'success', 1500);
+                            //return view('roles.index');
+                            return redirect()->route('caja-chica.index');
+                        } else {
+                            Alert::error('Lo sentimos', 'Ocurrio un error.');
+                            return redirect()->route('viaticos.edit');
+                        }
+                    } else {
+                        Alert::error('Lo sentimos', 'Saldo insuficiente para crear una CAJA CHICA. Saldo actual: S/. ' . number_format($saldo_total, 2));
+                        return redirect()->route('caja-chica.create');
                     }
                 } else {
                     Alert::error('Lo sentimos', 'Ocurrio un error.');
@@ -198,7 +206,7 @@ class CajaChicaController extends Controller
             }
         } else {
             if ($control_caja->is_abierto) {
-                if ($saldo_total >= $monto_nuevo) {
+                if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
                     $cajaChica = CajaChica::find($cajaChica->id);
                     $cajaChica->proyecto_id = $request->input('proyecto');
                     $cajaChica->responsable_id = $request->input('responsable');
@@ -231,7 +239,7 @@ class CajaChicaController extends Controller
                         Alert::error('Lo sentimos', 'Ocurrio un error.');
                         return redirect()->route('caja-chica.edit');
                     }
-                }else {
+                } else {
                     Alert::error('Lo sentimos', 'Saldo insuficiente para crear una CAJA CHICA. Saldo actual: S/. ' . number_format($saldo_total, 2));
                     return redirect()->route('caja-chica.create');
                 }

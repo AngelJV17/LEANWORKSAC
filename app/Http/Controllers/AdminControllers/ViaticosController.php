@@ -64,8 +64,8 @@ class ViaticosController extends Controller
         $saldo_total = $total_ingresos - $total_egresos;
 
         if ($fecha_caja_control == $hoy && $control_caja->is_abierto) {
-            
-            if ($saldo_total >= $monto_nuevo) {
+
+            if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
                 $viatico = new Viatico();
                 $viatico->proyecto_id = $request->input('proyecto');
                 $viatico->responsable_id = $request->input('responsable');
@@ -178,19 +178,25 @@ class ViaticosController extends Controller
                 $viatico->sustentado = true;
                 $viatico->updated_at = (new DateTime())->getTimestamp();
 
-                if ($viatico->update()) {
-                    //INGRESO PRÉSTAMO
-                    $caja->descripcion = $request->input('descripcion');
-                    $caja->updated_at = (new DateTime())->getTimestamp();
+                if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
 
-                    if ($caja->update()) {
-                        Alert::toast('Viático Sustentado', 'success', 1500);
-                        //return view('roles.index');
-                        return redirect()->route('viaticos.index');
+                    if ($viatico->update()) {
+                        //INGRESO PRÉSTAMO
+                        $caja->descripcion = $request->input('descripcion');
+                        $caja->updated_at = (new DateTime())->getTimestamp();
+
+                        if ($caja->update()) {
+                            Alert::toast('Viático Sustentado', 'success', 1500);
+                            //return view('roles.index');
+                            return redirect()->route('viaticos.index');
+                        }
+                    } else {
+                        Alert::error('Lo sentimos', 'Ocurrio un error.');
+                        return redirect()->route('viaticos.edit');
                     }
                 } else {
-                    Alert::error('Lo sentimos', 'Ocurrio un error.');
-                    return redirect()->route('viaticos.edit');
+                    Alert::error('Lo sentimos', 'Saldo insuficiente para los VIÁTICOS. Saldo actual: S/. ' . number_format($saldo_total, 2));
+                    return redirect()->route('viaticos.create');
                 }
             } else {
                 Alert::error('Lo sentimos', 'La caja esta cerrada, para poder sustentar comunicate con un encargado.');

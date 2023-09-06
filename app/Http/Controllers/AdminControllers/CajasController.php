@@ -126,7 +126,7 @@ class CajasController extends Controller
             $caja->created_at = (new DateTime())->getTimestamp();
 
             if ($nom_operacion == 'EGRESOS') {
-                if ($saldo_total >= $monto_nuevo) {
+                if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
                     /* $id_caja = Caja::orderBy('id', 'desc')->first();
                 dd($id_caja); */
 
@@ -186,6 +186,12 @@ class CajasController extends Controller
         $nom_operacion = CategoriaGlobal::find($request->input('operacion'));
         $nom_operacion = $nom_operacion->categoria_descripcion;
 
+        $monto_nuevo = $request->input('monto');
+        $id_proyecto = $request->input('proyecto_id');
+        $total_ingresos = $this->obetenerTotalIngresos($id_proyecto);
+        $total_egresos = $this->obetenerTotalEgresos($id_proyecto);
+        $saldo_total = $total_ingresos - $total_egresos;
+
         $control_caja = CajaControl::orderBy('id', 'desc')->first();
         $fecha_caja_control = ($control_caja != null) ? $control_caja->created_at->format('d-m-Y') :  '';
         $fecha_caja = $caja->created_at->format('d-m-Y');
@@ -203,12 +209,20 @@ class CajasController extends Controller
             $caja->id_control_caja = $control_caja->id;
             $caja->updated_at = (new DateTime())->getTimestamp();
 
+            if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {
+                /* $id_caja = Caja::orderBy('id', 'desc')->first();
+            dd($id_caja); */
 
-            if ($caja->save()) {
-                Alert::toast(ucfirst(strtolower($nom_operacion)) . ' Actualizado', 'success', 1500);
-                //return view('roles.index');
-                return redirect()->route('cajas.index');
+                if ($caja->update()) {
+                    Alert::toast(ucfirst(strtolower($nom_operacion)) . ' Actualizado', 'success', 1500);
+
+                    return redirect()->route('cajas.index');
+                }
+            } else {
+                Alert::error('Lo sentimos', 'Saldo insuficiente para realizar un registro de EGRESO. Saldo actual: S/. ' . number_format($saldo_total, 2));
+                return redirect()->route('cajas.create');
             }
+
         } else {
             Alert::error('Lo sentimos', 'Debes aperturar una caja primero');
             return redirect()->route('control-cajas.index');
