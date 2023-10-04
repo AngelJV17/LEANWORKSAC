@@ -112,8 +112,7 @@
         </li>
     @endcan
 
-
-    @can('categorias-globales.index', 'roles.index')
+    @can('categorias-globales.index', 'roles.index', 'reportes.index', 'permisos.index')
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -121,6 +120,13 @@
         <div class="sidebar-heading">
             ADMIN
         </div>
+
+        <li class="nav-item {{ Request::is('reportes', 'reportes/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('reportes.index') }}">
+                <i class="fas fa-fw fa-file-lines fa-xl"></i>
+                <span>Reportes</span>
+            </a>
+        </li>
 
         <li class="nav-item {{ Request::is('categorias-globales', 'categorias-globales/*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('categorias-globales.index') }}">
@@ -133,6 +139,13 @@
             <a class="nav-link" href="{{ route('roles.index') }}">
                 <i class="fas fa-fw fa-user-gear"></i>
                 <span>Roles</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Request::is('permisos', 'permisos/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('permisos.index') }}">
+                <i class="fas fa-fw fa-user-lock fa-xl"></i>
+                <span>Permisos</span>
             </a>
         </li>
 

@@ -13,7 +13,7 @@
                             <h4 class="font-weight-bold">NUEVO ROL</h4>
                         </div>
                         <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-fw fa-folder-plus fa-lg"></i>
+                            <i class="fas fa-fw fa-users-gear fa-lg"></i>
                         </div>
                     </div>
                 </div>

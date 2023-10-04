@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PermisosController;
+use App\Http\Controllers\Admin\ReportesController;
 use App\Http\Controllers\AdminControllers\CajaChicaController;
 use App\Http\Controllers\AdminControllers\CajasController;
 use App\Http\Controllers\AdminControllers\CategoriasGlobalesController;
@@ -121,6 +123,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('viaticos/{viatico}', [ViaticosController::class, 'update'])->name('viaticos.update');
     Route::delete('viaticos/{viatico}', [ViaticosController::class, 'destroy'])->name('viaticos.delete');
     Route::get('viaticos/{viatico}/sustentar', [ViaticosController::class, 'sustentar'])->name('viaticos.sustentar');
+
+    Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes.index');
+    Route::post('reportes/filtro', [ReportesController::class, 'reportResult'])->name('reportes.filtro');
+    //PDF
+    Route::get('reportes/pdf', [ReportesController::class, 'generarPdf'])->name('reportes.pdf');
+
+    
+    Route::get('/permisos', [PermisosController::class, 'index'])->name('permisos.index');
+    Route::get('permisos/create', [PermisosController::class, 'create'])->name('permisos.create');
+    Route::post('permisos', [PermisosController::class, 'store'])->name('permisos.store');
 
     //DEPARTAMENTOS - PROVINCIAS Y DISTRITOS
     //Route::get('proyectos/lista/departamentos', [ListaUbigeosController::class, 'listaDepartamentos'])->name('lista.departamentos');

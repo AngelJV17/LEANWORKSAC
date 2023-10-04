@@ -14,3 +14,12 @@ var table = new DataTable('#dataTable', {
   autoWidth: false,
   order: [[0, 'desc']]
 });
+
+var table = new DataTable('#dataTable_reporte', {
+  language: {
+      url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+  },
+  responsive: true,
+  autoWidth: false,
+  order: [[0, 'asc']]
+});
