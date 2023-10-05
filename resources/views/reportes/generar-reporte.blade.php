@@ -72,7 +72,7 @@
                     <th rowspan="2" class="align-middle" style="border: 1px solid rgb(75, 75, 75);">DESCRIPCIÓN</th>
                     <th rowspan="2" class="align-middle" style="border: 1px solid rgb(75, 75, 75);">REALIZADO POR
                     </th>
-                    <th rowspan="2" class="align-middle" style="border: 1px solid rgb(75, 75, 75);">MONTO</th>
+                    {{-- <th rowspan="2" class="align-middle" style="border: 1px solid rgb(75, 75, 75);">MONTO</th> --}}
                     <th rowspan="2" class="align-middle" style="border: 1px solid rgb(75, 75, 75);">FECHA</th>
                     <th colspan="3" class="align-middle text-center" style="border: 1px solid rgb(75, 75, 75);">FLUJO
                         CAJA</th>
@@ -106,7 +106,7 @@
                         <td>{{ $caja->_operacion->categoria_descripcion }}</td>
                         <td>{{ $caja->descripcion }}</td>
                         <td>{{ $caja->_autorizadoPor->nombres }} {{ $caja->_autorizadoPor->apellidos }}</td>
-                        <td>S/. {{ number_format($caja->monto, 2) }}</td>
+                        {{-- <td>S/. {{ number_format($caja->monto, 2) }}</td> --}}
                         <td>{{ date('d-m-Y', strtotime($caja->created_at)) }}</td>
                         @if ($caja->operacion == 2)
                             <td class="bg-success" {{-- style="background-color: rgb(100, 250, 100);" --}}>S/ {{ number_format($caja->monto, 2) }}</td>
