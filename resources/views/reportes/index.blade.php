@@ -70,18 +70,20 @@
                             </div>
 
                             @can('generar-reporte')
-                                <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
-                                    {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
-                                        id="btnPdf" type="button">
-                                        GENERAR
-                                        <i class="fas fa-fw fa-file-pdf"></i>
-                                    </a> --}}
-                                    <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf"
-                                        type="button">
-                                        GENERAR
-                                        <i class="fas fa-fw fa-file-pdf"></i>
-                                    </button>
-                                </div>
+                                @if (!$is_empty)
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
+                                        {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
+                                    id="btnPdf" type="button">
+                                    GENERAR
+                                    <i class="fas fa-fw fa-file-pdf"></i>
+                                </a> --}}
+                                        <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf"
+                                            type="button">
+                                            GENERAR
+                                            <i class="fas fa-fw fa-file-pdf"></i>
+                                        </button>
+                                    </div>
+                                @endif
                             @endcan
                         </div>
                     </form>
