@@ -11,7 +11,7 @@
 <style>
     body {
         font-family: "Gill Sans", sans-serif;
-        font-size: 10px;
+        font-size: 8px;
         position: relative;
     }
 
@@ -33,9 +33,9 @@
             <thead class="thead-light">
                 <tr>
                     <th rowspan="2" colspan="3" class="align-middle"
-                        style="border: 1px solid rgb(75, 75, 75); height: 80px;">
-                        <img src="admin_assets/img/logo_lws.png" alt="" height="25">
-                        <div style="margin-top: 5px; font-size: 14px;">
+                        style="border: 1px solid rgb(75, 75, 75); height: 55px;">
+                        <img src="admin_assets/img/logo_lws.png" alt="" height="20">
+                        <div style="margin-top: 5px; font-size: 12px;">
                             RUC: 20601724597
                         </div>
                     </th>
