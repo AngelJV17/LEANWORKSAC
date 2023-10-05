@@ -64,7 +64,7 @@ class ReportesController extends Controller
         $pdf = Pdf::loadView('reportes.generar-reporte', compact("cajas", "desde", "hasta"))->setPaper('A4', 'landscape');
         $options = new Options();
         $options->set('defaultFont', 'Verdana');
-        $options->set('javascript-delay', 3000);
+        $options->set('javascript-delay', 1500);
         $dompdf = new Dompdf($options);
         $nombre = 'REPORTE ' . $desde . ' AL ' . $hasta;
         return $pdf->download($nombre.'.pdf');

@@ -46,7 +46,8 @@
                                 <input type="date" class="form-control @error('desde') is-invalid @enderror"
                                     id="desde" name="desde" placeholder="Fecha de nacimiento"
                                     max="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
-                                    min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('desde') }}" --}}  value="{{ isset($_POST['desde']) ? $_POST['desde'] : old('desde') }}">
+                                    min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('desde') }}" --}}
+                                    value="{{ isset($_POST['desde']) ? $_POST['desde'] : old('desde') }}">
                                 @error('desde')
                                     <div class="alert alert-danger m-2">{{ $message }}</div>
                                 @enderror
@@ -56,7 +57,8 @@
                                 <input type="date" class="form-control @error('hasta') is-invalid @enderror"
                                     id="hasta" name="hasta" placeholder="Fecha de nacimiento"
                                     max="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
-                                    min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('hasta') }}" --}} value="{{ isset($_POST['hasta']) ? $_POST['hasta'] : old('hasta') }}">
+                                    min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('hasta') }}" --}}
+                                    value="{{ isset($_POST['hasta']) ? $_POST['hasta'] : old('hasta') }}">
                                 @error('hasta')
                                     <div class="alert alert-danger m-2">{{ $message }}</div>
                                 @enderror
@@ -68,18 +70,21 @@
                             </div>
 
                             @can('generar-reporte')
-                                <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
-                                    {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
+                                @if ($is_filter)
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
+                                        {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
                                         id="btnPdf" type="button">
                                         GENERAR
                                         <i class="fas fa-fw fa-file-pdf"></i>
                                     </a> --}}
-                                    <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf" type="button">
-                                        GENERAR
-                                        <i class="fas fa-fw fa-file-pdf"></i>
-                                    </button>
-                                </div>
-                            @endcan
+                                        <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf"
+                                            type="button">
+                                            GENERAR
+                                            <i class="fas fa-fw fa-file-pdf"></i>
+                                        </button>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </form>
                 </div>
