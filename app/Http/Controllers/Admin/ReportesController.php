@@ -60,7 +60,12 @@ class ReportesController extends Controller
         $desde = date('Y-m-d', strtotime($request->desde));
         $hasta = date('Y-m-d 23:59:59', strtotime($request->hasta));
 
-        $cajas =  Caja::whereBetween('created_at', [$desde, $hasta])->get();
+        if (isset($desde) || isset($hasta)) {
+            $cajas =  Caja::whereBetween('created_at', [$desde, $hasta])->get();
+        }else{
+            $cajas =  Caja::orderBy('id', 'asc')->get();
+        }
+        
         $pdf = Pdf::loadView('reportes.generar-reporte', compact("cajas", "desde", "hasta"))->setPaper('A4', 'landscape');
         $options = new Options();
         $options->set('defaultFont', 'Verdana');

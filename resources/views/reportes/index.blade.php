@@ -70,21 +70,19 @@
                             </div>
 
                             @can('generar-reporte')
-                                @if ($is_filter)
-                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
-                                        {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
+                                <div class="form-group col-lg-3 col-md-6 col-sm-12 mb-2">
+                                    {{-- <a href="{{ route('reportes.pdf') }}" class="btn btn-danger btn-block btn-sm text-uppercase"
                                         id="btnPdf" type="button">
                                         GENERAR
                                         <i class="fas fa-fw fa-file-pdf"></i>
                                     </a> --}}
-                                        <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf"
-                                            type="button">
-                                            GENERAR
-                                            <i class="fas fa-fw fa-file-pdf"></i>
-                                        </button>
-                                    </div>
-                                @endcan
-                            @endif
+                                    <button class="btn btn-danger btn-block btn-sm text-uppercase" id="btnPdf"
+                                        type="button">
+                                        GENERAR
+                                        <i class="fas fa-fw fa-file-pdf"></i>
+                                    </button>
+                                </div>
+                            @endcan
                         </div>
                     </form>
                 </div>

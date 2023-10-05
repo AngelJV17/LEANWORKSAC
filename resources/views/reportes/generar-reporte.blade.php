@@ -55,7 +55,12 @@
 
                     <th colspan="4" class="align-middle"
                         style="border: 1px solid rgb(75, 75, 75); font-weight: 400;">
-                        Fecha de reporte: {{ date('d-m-Y', strtotime($desde))." al ".date('d-m-Y', strtotime($hasta))}}</th>
+                        @if (isset($desde) && isset($desde))
+                        Fecha de reporte: {{ date('d-m-Y', strtotime($desde))." al ".date('d-m-Y', strtotime($hasta))}}
+                        @else
+                        Reporte completo de caja
+                        @endif
+                    </th>
                 </tr>
             </thead>
 
