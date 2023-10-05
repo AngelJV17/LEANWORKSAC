@@ -26,7 +26,7 @@ function myFunction() {
             hasta: _hasta,
         },
     }).then((res) => {
-        console.log(res);
+        //console.log(res);
         var _d = _desde ? _desde.replace("/", "-") : '';
         var _h = _hasta ? _hasta.replace("/", "-") : '';
         const url = window.URL.createObjectURL(new Blob([res.data]));
