@@ -11,7 +11,7 @@
 <style>
     body {
         font-family: "Gill Sans", sans-serif;
-        font-size: 8px;
+        font-size: 7.5px;
         position: relative;
     }
 
