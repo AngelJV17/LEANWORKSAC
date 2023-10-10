@@ -147,7 +147,7 @@ class InversionesController extends Controller
         $request->validate([
             'proyecto' => 'required',
             'realizado_por' => 'required',
-            'monto' => 'required|numeric',
+            'monto' => 'required',
             'descripcion' => 'required',
         ]);
 
@@ -174,20 +174,20 @@ class InversionesController extends Controller
 
             if ($inversion->update()) {
                 //INGRESO PRÉSTAMO
-                $caja = Caja::find($inversion->id);
+                $caja = Caja::where('id_inversiones', $inversion->id)->first();
                 $caja->proyecto_id = $request->input('proyecto');
-                $caja->operacion = 2; //OPERACION INGRESOS ID
-                $caja->tipo = 6; //TIPO INGRESO ID
-                $caja->subtipo = 7; //SUBTIPO INVERSIÓN
-                $caja->autorizado_por = $request->input('realizado_por');
-                $caja->realizado_a_favor = $a_favor;
+                //$caja->operacion = 2; //OPERACION INGRESOS ID
+                //$caja->tipo = 6; //TIPO INGRESO ID
+                //$caja->subtipo = 7; //SUBTIPO INVERSIÓN
+                //$caja->autorizado_por = $request->input('realizado_por');
+                //$caja->realizado_a_favor = $a_favor;
                 $caja->monto = $request->input('monto');
                 $caja->descripcion = $request->input('descripcion');
-                $caja->is_prestamo = false;
-                $caja->is_inversion = true;
-                $caja->is_caja_chica = false;
-                $caja->is_viatico = false;
-                $caja->id_inversiones = $inversion->id;
+                //$caja->is_prestamo = false;
+                //$caja->is_inversion = true;
+                //$caja->is_caja_chica = false;
+                //$caja->is_viatico = false;
+                //$caja->id_inversiones = $inversion->id;
                 $caja->updated_at = (new DateTime())->getTimestamp();
 
                 if ($caja->update()) {

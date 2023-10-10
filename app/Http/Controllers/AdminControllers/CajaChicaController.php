@@ -218,16 +218,16 @@ class CajaChicaController extends Controller
                     if ($cajaChica->update()) {
                         //INGRESO PRÉSTAMO
                         $caja->proyecto_id = $request->input('proyecto');
-                        $caja->operacion = 3; //OPERACION EGRESO ID
-                        $caja->tipo = 13; //TIPO OFICINA ID
-                        $caja->subtipo = 56; //SUBTIPO CAJA CHICA
+                        //$caja->operacion = 3; //OPERACION EGRESO ID
+                        //$caja->tipo = 13; //TIPO OFICINA ID
+                        //$caja->subtipo = 56; //SUBTIPO CAJA CHICA
                         $caja->autorizado_por = $request->input('autorizado_por');
                         $caja->realizado_a_favor = $responsable->nombres . ' ' . $responsable->apellidos;
                         $caja->monto = $request->input('monto');
                         $caja->descripcion = $request->input('descripcion');
-                        $caja->is_caja_chica = true;
-                        $caja->id_caja_chica = $cajaChica->id;
-                        $caja->id_control_caja = $control_caja->id;
+                        //$caja->is_caja_chica = true;
+                        //$caja->id_caja_chica = $cajaChica->id;
+                        //$caja->id_control_caja = $control_caja->id;
                         $caja->updated_at = (new DateTime())->getTimestamp();
 
                         if ($caja->update()) {
