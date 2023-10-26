@@ -107,6 +107,10 @@ class CajasController extends Controller
         $fecha_caja_control = ($control_caja != null) ? $control_caja->created_at->format('d-m-Y') :  '';
         $hoy = Carbon::now()->format('d-m-Y');
 
+        //FECHA DE PAGO
+        $fecha_created_at = $request->input('created_at') != null ? $request->input('created_at') : (new DateTime())->getTimestamp();
+        //dd($fecha_created_at);
+
         if ($fecha_caja_control == $hoy) {
 
             $caja = new Caja();
@@ -123,7 +127,7 @@ class CajasController extends Controller
             $caja->is_caja_chica = false;
             $caja->is_viatico = false;
             $caja->id_control_caja = $control_caja->id;
-            $caja->created_at = (new DateTime())->getTimestamp();
+            $caja->created_at = $fecha_created_at;
 
             if ($nom_operacion == 'EGRESOS') {
                 if (number_format($saldo_total, 2, '.', '') >= number_format($monto_nuevo, 2, '.', '')) {

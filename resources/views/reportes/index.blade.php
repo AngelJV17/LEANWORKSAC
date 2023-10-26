@@ -44,7 +44,7 @@
                             <div class="form-group mb-2 col-lg-6 col-sm-12 p-2">
                                 <label for="desde">DESDE</label>
                                 <input type="date" class="form-control @error('desde') is-invalid @enderror"
-                                    id="desde" name="desde" placeholder="Fecha de nacimiento"
+                                    id="desde" name="desde" placeholder="Desde"
                                     max="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
                                     min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('desde') }}" --}}
                                     value="{{ isset($_POST['desde']) ? $_POST['desde'] : old('desde') }}">
@@ -55,7 +55,7 @@
                             <div class="form-group mb-2 col-lg-6 col-sm-12 p-2">
                                 <label for="hasta">HASTA</label>
                                 <input type="date" class="form-control @error('hasta') is-invalid @enderror"
-                                    id="hasta" name="hasta" placeholder="Fecha de nacimiento"
+                                    id="hasta" name="hasta" placeholder="Hasta"
                                     max="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
                                     min="{{ Carbon\Carbon::now()->format('2023-01-01') }}" {{-- value="{{ old('hasta') }}" --}}
                                     value="{{ isset($_POST['hasta']) ? $_POST['hasta'] : old('hasta') }}">

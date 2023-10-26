@@ -126,6 +126,19 @@
                     <div class="alert alert-danger m-2">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="form-row m-2">
+                <div class="form-group col-12">
+                    <label for="created_at">FECHA</label>
+                    <input type="date" class="form-control @error('created_at') is-invalid @enderror" id="created_at"
+                        name="created_at" placeholder="Fecha"
+                        max="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
+                        min="{{ Carbon\Carbon::now()->format('2023-01-01') }}"
+                        value="{{ old('created_at') }}">
+                    @error('created_at')
+                        <div class="alert alert-danger m-2">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="text-center m-4">
                 <button class="btn btn-success" type="submit">REGISTRAR</button>
             </div>

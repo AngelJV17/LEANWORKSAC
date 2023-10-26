@@ -71,9 +71,13 @@
             </div>
         </div>
         <div class="form-row m-2">
-            <div class="form-group col-lg-12 col-md-12 col-xs-12 mb-4">
+            <div class="form-group col-md-6 col-xs-12 mb-4">
                 <label for="proyecto_id">DESCRIPCIÓN:</label>
                 <h5>{{ $caja->descripcion }}</h5 class="border-2">
+            </div>
+            <div class="form-group col-md-6 col-xs-12 mb-4">
+                <label for="proyecto_id">FECHA:</label>
+                <h5>{{ date('d-m-Y', strtotime($caja->created_at)) }}</h5 class="border-2">
             </div>
         </div>
         <div class="text-center m-4">

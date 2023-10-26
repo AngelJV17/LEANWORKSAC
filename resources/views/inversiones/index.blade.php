@@ -107,7 +107,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered table-dark" width="100%"
+                <table id="dataTable" class="table table-striped table-bordered table-dark table-sm" width="100%"
                     cellspacing="0">
                     <thead class="thead-light">
                         <tr>

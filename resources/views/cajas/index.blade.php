@@ -88,11 +88,11 @@
                                         Ingresos
                                     </div>
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col-auto">
-                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                        <div class="col-lg-12">
+                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800" style="font-size: 14px;">S/
                                                 {{ number_format($total_ingresos, 2) }}</div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-lg-12">
                                             <div class="progress progress-sm mr-2">
                                                 <div class="progress-bar bg-success" role="progressbar"
                                                     @if ($total_ingresos > 0) style="width: 100%"
@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto p-3">
                                     <i class="fas fa-coins fa-2x text-gray-300"></i>
                                 </div>
                             </div>
@@ -122,11 +122,11 @@
                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Egresos
                                     </div>
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col-auto">
-                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                        <div class="col-lg-12">
+                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800" style="font-size: 14px;">S/.
                                                 {{ number_format($total_egresos, 2) }}</div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-lg-12">
                                             <?php $porcentaje = $total_egresos > 0 || $total_ingresos > 0 ? ($total_egresos * 100) / $total_ingresos : 0; ?>
                                             <div class="progress progress-sm mr-2">
                                                 <div class="progress-bar bg-danger" role="progressbar"
@@ -137,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto p-3">
                                     <i class="fas fa-coins fa-2x text-gray-300"></i>
                                 </div>
                             </div>
@@ -154,13 +154,13 @@
                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Saldo
                                     </div>
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col-auto">
-                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">S/.
+                                        <div class="col-lg-12">
+                                            <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800" style="font-size: 14px;">S/.
                                                 {{ number_format($saldo, 2) }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto p-3">
                                     <i class="fas fa-coins fa-2x text-gray-300"></i>
                                 </div>
                             </div>
@@ -176,10 +176,10 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                         Porcentaje de Gasto</div>
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800" style="font-size: 14px;">
                                         {{ number_format($porcentaje, 2) }} %</div>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto p-3">
                                     <i class="fas fa-percent fa-2x text-gray-300"></i>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered table-sm table-dark" width="100%"
+                <table id="dataTable" class="table table-striped table-bordered table-dark table-sm" width="100%"
                     cellspacing="0">
                     <thead class="thead-light">
                         <tr>
@@ -202,7 +202,7 @@
                             <th rowspan="2" class="align-middle">SUBTIPO</th>
                             <th rowspan="2" class="align-middle">DESCRIPCIÓN</th>
                             <th rowspan="2" class="align-middle">AUTORIZADO POR</th>
-                            <th rowspan="2" class="align-middle">REALIZADO A FAVOR</th>
+                            {{-- <th rowspan="2" class="align-middle">REALIZADO A FAVOR</th> --}}
                             <th rowspan="2" class="align-middle">MONTO</th>
                             <th rowspan="2" class="align-middle">FECHA</th>
                             <th colspan="3" class="align-middle text-center">ACCIONES</th>
@@ -229,7 +229,7 @@
                                 <td>{{ $caja->_subtipo->categoria_descripcion }}</td>
                                 <td>{{ $caja->descripcion }}</td>
                                 <td>{{ $caja->_autorizadoPor->nombres }} {{ $caja->_autorizadoPor->apellidos }}</td>
-                                <td>{{ $caja->realizado_a_favor }}</td>
+                                {{-- <td>{{ $caja->realizado_a_favor }}</td> --}}
                                 <td>S/. {{ number_format($caja->monto, 2) }}</td>
                                 <td>{{ date('d-m-Y', strtotime($caja->created_at)) }}</td>
                                 @can('cajas.show')

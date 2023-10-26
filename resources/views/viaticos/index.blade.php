@@ -37,7 +37,7 @@
         style="width: 95%; border-radius: 16px; margin-top: -4rem !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered table-dark" width="100%" cellspacing="0">
+                <table id="dataTable" class="table table-striped table-bordered table-dark table-sm" width="100%" cellspacing="0">
                     <thead class="thead-light">
                         <tr>
                             <th rowspan="2" class="align-middle">N°</th>
@@ -46,6 +46,7 @@
                             <th rowspan="2" class="align-middle">AUTORIZADO POR</th>
                             <th rowspan="2" class="align-middle">RESPONSABLE</th>
                             <th rowspan="2" class="align-middle">MONTO</th>
+                            <th rowspan="2" class="align-middle">FECHA</th>
                             <th colspan="3" class="align-middle text-center">ACCIONES</th>
                         </tr>
                         <tr>
@@ -71,6 +72,7 @@
                                 <td>{{ $viatico->_responsable->nombres }} {{ $viatico->_responsable->apellidos }}
                                 </td>
                                 <td>S/. {{ number_format($viatico->monto, 2) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($viatico->created_at)) }}</td>
                                 @can('cajas.show')
                                     <td class="text-center">
                                         <a type="button" class="btn btn-info btn-sm rounded-circle" title="VER"
