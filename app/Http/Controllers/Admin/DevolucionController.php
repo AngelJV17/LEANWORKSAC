@@ -20,15 +20,15 @@ class DevolucionController extends Controller
             $is_filter = true;
 
             if ($request->proyecto != null && $request->user != null) {
-                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->get()->filter(
+                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->orderBy('id', 'asc')->get()->filter(
                     fn ($caja) => $caja->proyecto_id == $request->proyecto && $caja->autorizado_por == $request->user
                 );
             } elseif ($request->proyecto != null) {
-                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->get()->filter(
+                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->orderBy('id', 'asc')->get()->filter(
                     fn ($caja) => $caja->proyecto_id == $request->proyecto
                 );
             } else {
-                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->get()->filter(
+                $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->orderBy('id', 'asc')->get()->filter(
                     fn ($caja) => $caja->autorizado_por == $request->user
                 );
             }
