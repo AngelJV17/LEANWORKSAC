@@ -32,7 +32,7 @@ class DevolucionController extends Controller
                     fn ($caja) => $caja->autorizado_por == $request->user
                 );
             }
-            
+
             $is_empty = $cajas->count() == 0 || $cajas == '' ? true : false;
             $proyectos = Proyecto::all();
             //$users = User::whereNot('id',1)->get();
@@ -42,7 +42,7 @@ class DevolucionController extends Controller
             //dd($superAdminCount);
             return view('devoluciones.index', compact('is_filter', 'cajas', 'is_empty', 'proyectos', 'users', 'id_proyecto', 'id_user'));
         } else {
-            $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->get();
+            $cajas = Caja::where('is_inversion', 1)->orWhere('subtipo', 53)->orderBy('autorizado_por', 'asc')->orderBy('id', 'asc')->get();
 
             $is_filter = false;
             $is_empty = $cajas->count() == 0 || $cajas == '' ? true : false;
