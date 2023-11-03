@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DevolucionController;
 use App\Http\Controllers\Admin\PermisosController;
 use App\Http\Controllers\Admin\ReportesController;
 use App\Http\Controllers\AdminControllers\CajaChicaController;
@@ -128,6 +129,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('reportes/filtro', [ReportesController::class, 'reportResult'])->name('reportes.filtro');
     //PDF
     Route::get('reportes/pdf', [ReportesController::class, 'generarPdf'])->name('reportes.pdf');
+
+    Route::get('/reportes-devolucion', [DevolucionController::class, 'index'])->name('reportes-devolucion.index');
 
     
     Route::get('/permisos', [PermisosController::class, 'index'])->name('permisos.index');

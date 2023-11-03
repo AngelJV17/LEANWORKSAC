@@ -112,7 +112,7 @@
         </li>
     @endcan
 
-    @can('categorias-globales.index', 'roles.index', 'reportes.index', 'permisos.index')
+    @can('categorias-globales.index', 'roles.index', 'reportes.index', 'permisos.index', 'reportes-devolucion.index')
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -125,6 +125,13 @@
             <a class="nav-link" href="{{ route('reportes.index') }}">
                 <i class="fas fa-fw fa-file-lines fa-xl"></i>
                 <span>Reportes</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Request::is('reportes-devolucion', 'reportes-devolucion/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('reportes-devolucion.index') }}">
+                <i class="fas fa-fw fa-rotate-left fa-xl"></i>
+                <span>Reportes Devolución</span>
             </a>
         </li>
 
